@@ -1,69 +1,13 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Contactez-nous pour toute question sur nos articles et formations en développement web. Formulaire de contact et localisation.">
-    <meta name="author" content="CE FORMATION">
-   
-    <title>Contact - Mon Blog de Développement Web</title>
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-    <link href="assets/css/blog.css" rel="stylesheet">
-    <link href="assets/css/custom.css" rel="stylesheet">
-</head>
-<body>
-    <a href="#main-content" class="visually-hidden-focusable">Aller au contenu principal</a>
-    
-    <div class="container">
-        <header class="border-bottom lh-1 py-3">
-            <div class="row flex-nowrap justify-content-between align-items-center">
-                <div class="col-4 pt-1"></div>
-                <div class="col-4 text-center">
-                    <a class="blog-header-logo text-body-emphasis text-decoration-none" href="index.html" aria-label="Retour à l'accueil">
-                        <h1 class="h3 mb-0">Mon Blog</h1>
-                    </a>
-                </div>
-                <nav class="col-4 d-flex justify-content-end align-items-center" aria-label="Connexion utilisateur">
-                    <a class="btn btn-sm" href="create_account.html" title="Créer un compte" aria-label="Créer un compte">
-                        <i class="fas fa-user" aria-hidden="true"></i>
-                        <span class="visually-hidden">Créer un compte</span>
-                    </a>
-                    <span aria-hidden="true">|</span>
-                    <a class="btn btn-sm" href="login.html" title="Se connecter" aria-label="Se connecter">
-                        <i class="fas fa-sign-in-alt" aria-hidden="true"></i>
-                        <span class="visually-hidden">Se connecter</span>
-                    </a>
-                </nav>
-            </div>
-        </header>
-
-        <nav class="nav-scroller py-1 mb-3 border-bottom" aria-label="Navigation principale">
-            <ul class="nav nav-underline justify-content-between">
-                <li class="nav-item">
-                    <a class="nav-link link-body-emphasis" href="index.html">Accueil</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link link-body-emphasis" href="about.html">À propos</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link link-body-emphasis" href="blog.html">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link link-body-emphasis active" href="contact.html" aria-current="page">Contact</a>
-                </li>
-            </ul>
-        </nav>
-    </div>
-
-    <main id="main-content" class="container">
-        <section class="p-4 p-md-5 mb-4 rounded text-body-emphasis bg-body-secondary" aria-labelledby="page-title">
-            <div class="col-lg-6 px-0">
-                <h2 id="page-title" class="display-4 fst-italic">Contact</h2>
-                <p class="lead my-3">Contactez-nous pour toute question</p>
-            </div>
-        </section>
+<?php
+	// Variables d'affichage
+	$strH2		= "Contact";
+	$strP		= "Contactez-nous pour toute question";
+	// Variables technique
+	$strPage	= "contact";
+	
+	// inclusion du header
+	include("_partial/header.php");
+?>		
 		<section aria-label="Contactez-nous">
             <h2 class="visually-hidden">Contactez-nous</h2>
 			<div class="row g-5">
@@ -286,27 +230,5 @@
             </section>
         </div>
 		</section>
-	</main>
-
-    <footer class="py-3 mt-3 text-center text-body-secondary bg-body-tertiary">
-        <p>Créé par <a href="https://ce-formation.com/" rel="noopener">CE FORMATION</a></p>
-        <nav aria-label="Navigation pied de page">
-            <ul class="list-inline">
-                <li class="list-inline-item">
-                    <a href="mentions.html">Mentions légales</a>
-                </li>
-                <li class="list-inline-item" aria-hidden="true">|</li>
-                <li class="list-inline-item">
-                    <a href="contact.html">Contact</a>
-                </li>
-            </ul>
-        </nav>
-        <p class="mb-0">
-            <a href="#" aria-label="Retour en haut de la page">Retour en haut</a>
-        </p>
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
-</body>
-</html>
+<?php 
+	include("_partial/footer.php");
