@@ -1,0 +1,25 @@
+        /* Styles spécifiques pour la page légale */
+        .legal-section {
+            margin-bottom: 2.5rem;
+        }
+        .legal-section h3 {
+            border-bottom: 2px solid #dee2e6;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .table-of-contents {
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin-bottom: 2rem;
+        }
+        .table-of-contents ul {
+            margin-bottom: 0;
+        }
+        .table-of-contents a {
+            text-decoration: none;
+            color: #0d6efd;
+        }
+        .table-of-contents a:hover {
+            text-decoration: underline;
+        }
