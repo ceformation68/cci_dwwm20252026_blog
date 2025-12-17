@@ -36,7 +36,7 @@
 			//var_dump($strRq);
 			// 3. Executer la requête et récupérer les résultats
 			$arrResult = $db->query($strRq)->fetch();
-			var_dump($arrResult);
+			//var_dump($arrResult);
 			if ($arrResult === false){ // Si la base de données ne renvoie rien
 				$arrError[] = "Mail ou mot de passe invalide";
 			}else{
@@ -46,10 +46,13 @@
 				$_SESSION['id']				= $arrResult['user_id'];*/
 				// j'enlève le mot de passe avant la session
 				unset($arrResult['user_pwd']);
-				$_SESSION['user']	= $arrResult;
+				$_SESSION['user']		= $arrResult;
+				$_SESSION['success'] 	= "Bienvenue, vous êtes bien connecté";
 				
-				var_dump($_SESSION);
-				var_dump("Connecté");
+				header("Location:index.php");
+				exit;
+				//var_dump($_SESSION);
+				//var_dump("Connecté");
 			}
 		}
 	}	
