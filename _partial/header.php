@@ -1,3 +1,9 @@
+<?php
+	// Activer la session sur toutes les pages qui incluent le header
+	session_start();
+	//var_dump($_SESSION);
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
