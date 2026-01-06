@@ -8,9 +8,16 @@
 	// inclusion du header
 	include("_partial/header.php");
 
+	//Récupérer les informations du Formulaire
+	$strKeywords 	= $_GET['keywords']??'';
+	$intAuthor		= $_GET['author']??0;
+
+
 	// Récupération des articles 
 	require("article_model.php");
-	$arrArticle = findAll();
+	$arrArticle = findAll(0, $strKeywords, $intAuthor);
+	
+	
 ?>
         <!-- Formulaire de recherche -->
 		<section aria-label="Blog">
@@ -27,6 +34,7 @@
 							<div class="col-md-6">
 								<label for="keywords" class="form-label">Mots-clés</label>
 								<input 
+									value="<?php echo $strKeywords; ?>"
 									type="text" 
 									class="form-control" 
 									id="keywords" 
@@ -41,9 +49,10 @@
 							<div class="col-md-6">
 								<label for="author" class="form-label">Auteur</label>
 								<select class="form-select" id="author" name="author">
-									<option value="">Tous les auteurs</option>
-									<option value="christel">Christel</option>
-									<option value="test">Test</option>
+									<option value="0" <?php echo ($intAuthor == 0)?'selected':''; ?> >Tous les auteurs</option>
+									<option value="1" <?php echo ($intAuthor == 1)?'selected':''; ?> >Christel</option>
+									<option value="2" <?php echo ($intAuthor == 2)?'selected':''; ?> >Test</option>
+									<!-- Faire une boucle sur les users de la base de données -->
 								</select>
 							</div>
 							
