@@ -8,24 +8,9 @@
 	// inclusion du header
 	include("_partial/header.php");
 	
-	// inclure la connexion
-	require_once("connexion.php");
-	// Ecrire la requête
-	/*$strRq	= "SELECT *
-				FROM articles
-				ORDER BY article_createdate DESC
-				LIMIT 4;";
-				*/
-	// Requête avec le nom du créateur
-	$strRq	= "SELECT articles.*, 
-				CONCAT(user_firstname, ' ', user_name) AS 'article_creatorname'
-				FROM articles
-					INNER JOIN users ON article_creator = user_id
-				ORDER BY article_createdate DESC
-				LIMIT 4";
-	// Lancer la requête et récupérer les résultats
-	$arrArticle = $db->query($strRq)->fetchAll();
-	
+	// Récupération des articles 
+	require("article_model.php");
+	$arrArticle = findAll(4);
 ?>
 <section aria-label="Articles récents">
 	<h2 class="visually-hidden">Les 4 derniers articles</h2>
