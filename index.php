@@ -7,88 +7,49 @@
 	
 	// inclusion du header
 	include("_partial/header.php");
+	
+	// inclure la connexion
+	require_once("connexion.php");
+	// Ecrire la requête
+	/*$strRq	= "SELECT *
+				FROM articles
+				ORDER BY article_createdate DESC
+				LIMIT 4;";
+				*/
+	// Requête avec le nom du créateur
+	$strRq	= "SELECT articles.*, 
+				CONCAT(user_firstname, ' ', user_name) AS 'article_creatorname'
+				FROM articles
+					INNER JOIN users ON article_creator = user_id
+				ORDER BY article_createdate DESC
+				LIMIT 4";
+	// Lancer la requête et récupérer les résultats
+	$arrArticle = $db->query($strRq)->fetchAll();
+	
 ?>
 <section aria-label="Articles récents">
 	<h2 class="visually-hidden">Les 4 derniers articles</h2>
 	<div class="row mb-2">
-		<article class="col-md-6 mb-4">
-			<div class="row g-0 border rounded overflow-hidden flex-md-row shadow-sm h-md-250 position-relative">
-				<div class="col p-4 d-flex flex-column position-static">
-					<h3 class="mb-2">Le devenir du JavaScript</h3>
-					<div class="mb-2 text-body-secondary">
-						<time datetime="2017-05-11">11 mai 2017</time>
-						<span> - test</span>
-					</div>
-					<p class="mb-auto">Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
-					<a href="article-javascript.html" class="icon-link gap-1 icon-link-hover stretched-link" aria-label="Lire l'article complet sur le devenir du JavaScript">
-						Lire la suite
-						<i class="fas fa-arrow-right" aria-hidden="true"></i>
-					</a>
-				</div>
-				<div class="col-auto d-none d-lg-block">
-					<img class="bd-placeholder-img" width="200" height="250" src="assets/images/js.png" alt="Logo JavaScript - Article sur l'évolution du JavaScript" loading="lazy">
-				</div>
-			</div>
-		</article>
-		<article class="col-md-6 mb-4">
-			<div class="row g-0 border rounded overflow-hidden flex-md-row shadow-sm h-md-250 position-relative">
-				<div class="col p-4 d-flex flex-column position-static">
-					<h3 class="mb-2">Qu'est-ce que le HTML?</h3>
-					<div class="mb-2 text-body-secondary">
-						<time datetime="2017-04-04">4 avril 2017</time>
-						<span> - christel</span>
-					</div>
-					<p class="mb-auto">Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
-					<a href="article-html.html" class="icon-link gap-1 icon-link-hover stretched-link" aria-label="Lire l'article complet sur le HTML">
-						Lire la suite
-						<i class="fas fa-arrow-right" aria-hidden="true"></i>
-					</a>
-				</div>
-				<div class="col-auto d-none d-lg-block">
-					<img class="bd-placeholder-img" width="200" height="250" src="assets/images/html.png" alt="Logo HTML5 - Introduction au langage HTML" loading="lazy">
-				</div>
-			</div>
-		</article>
-
-		<article class="col-md-6 mb-4">
-			<div class="row g-0 border rounded overflow-hidden flex-md-row shadow-sm h-md-250 position-relative">
-				<div class="col p-4 d-flex flex-column position-static">
-					<h3 class="mb-2">Utiliser le CSS correctement</h3>
-					<div class="mb-2 text-body-secondary">
-						<time datetime="2017-05-08">8 mai 2017</time>
-						<span> - christel</span>
-					</div>
-					<p class="mb-auto">Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
-					<a href="article-css.html" class="icon-link gap-1 icon-link-hover stretched-link" aria-label="Lire l'article complet sur l'utilisation du CSS">
-						Lire la suite
-						<i class="fas fa-arrow-right" aria-hidden="true"></i>
-					</a>
-				</div>
-				<div class="col-auto d-none d-lg-block">
-					<img class="bd-placeholder-img" width="200" height="250" src="assets/images/CSS.png" alt="Logo CSS3 - Guide d'utilisation des feuilles de style" loading="lazy">
-				</div>
-			</div>
-		</article>
-
-		<article class="col-md-6 mb-4">
-			<div class="row g-0 border rounded overflow-hidden flex-md-row shadow-sm h-md-250 position-relative">
-				<div class="col p-4 d-flex flex-column position-static">
-					<h3 class="mb-2">Utiliser PhpMyAdmin</h3>
-					<div class="mb-2 text-body-secondary">
-						<time datetime="2017-05-21">21 mai 2017</time>
-						<span> - christel</span>
-					</div>
-					<p class="mb-auto">Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
-					<a href="article-phpmyadmin.html" class="icon-link gap-1 icon-link-hover stretched-link" aria-label="Lire l'article complet sur PhpMyAdmin">
-						Lire la suite
-						<i class="fas fa-arrow-right" aria-hidden="true"></i>
-					</a>
-				</div>
-				<div class="col-auto d-none d-lg-block">
-					<img class="bd-placeholder-img" width="200" height="250" src="assets/images/mysql.png" alt="Logo MySQL - Tutoriel PhpMyAdmin" loading="lazy">
-				</div>
-			</div>
-		</article>
+	<?php
+		foreach($arrArticle as $arrDetArticle){
+			//var_dump($arrDetArticle);
+			// Traiter le résumé
+			$strSummary = mb_strimwidth($arrDetArticle['article_content'], 0, 70, "...");
+			
+			// Traiter l'affichage de la date
+			$objDate	= new DateTime($arrDetArticle['article_createdate']);
+			//$strDate	= $objDate->format("d/m/Y"); // en anglais
+			
+			// Version avec configuration pour l'avoir en français
+			$objDateFormatter	= new IntlDateFormatter(
+                "fr_FR", // langue
+                IntlDateFormatter::LONG,  // format de date
+                IntlDateFormatter::NONE, // format heure
+            );
+			$strDate	= $objDateFormatter->format($objDate);
+			
+			include("_partial/article.php");
+		} ?>
 	</div>
 </section>
 <?php 
