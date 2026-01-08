@@ -15,13 +15,13 @@
 	$strDate		= $_GET['date']??'';
 	$strStartDate	= $_GET['startdate']??'';
 	$strEndDate		= $_GET['enddate']??'';
-	var_dump($_GET);
 
 	// Récupération des articles 
 	require("article_model.php");
-	$arrArticle = findAll(0, $strKeywords, $intAuthor, $intPeriod, $strDate, $strStartDate, $strEndDate);
-	
-	
+	//$arrArticle = findAll(0, $strKeywords, $intAuthor, $intPeriod, $strDate, $strStartDate, $strEndDate);
+	// Depuis PHP 8 - accès direct aux paramètres
+	$arrArticle = findAll(intAuthor:$intAuthor, intPeriod:$intPeriod, strDate:$strDate, 
+						  strKeywords:$strKeywords, strStartDate:$strStartDate, strEndDate:$strEndDate);
 ?>
         <!-- Formulaire de recherche -->
 		<section aria-label="Blog">

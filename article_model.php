@@ -1,5 +1,7 @@
 <?php
-	function findAll($intLimit=0, $strKeywords='', $intAuthor=0, $intPeriod=0 , $strDate='', $strStartDate='', $strEndDate=''){
+	function findAll(int $intLimit=0, string $strKeywords='', int $intAuthor=0, 
+					 int $intPeriod=0, string $strDate='', string $strStartDate='', 
+					 string $strEndDate=''):array{
 		// inclure la connexion
 		require_once("connexion.php");
 		
@@ -57,7 +59,7 @@
 		if ($intLimit > 0){
 			$strRq  .= " LIMIT ".$intLimit;
 		}
-		var_dump($strRq);
+
 		// Lancer la requête et récupérer les résultats
 		return $db->query($strRq)->fetchAll();
 	}
