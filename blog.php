@@ -22,6 +22,10 @@
 	// Depuis PHP 8 - accès direct aux paramètres
 	$arrArticle = findAll(intAuthor:$intAuthor, intPeriod:$intPeriod, strDate:$strDate, 
 						  strKeywords:$strKeywords, strStartDate:$strStartDate, strEndDate:$strEndDate);
+	
+	// Récupération des utilisateurs
+	require("user_model.php");
+	$arrUser 	= findAllUsers();
 ?>
         <!-- Formulaire de recherche -->
 		<section aria-label="Blog">
@@ -54,11 +58,21 @@
 								<label for="author" class="form-label">Auteur</label>
 								<select class="form-select" id="author" name="author">
 									<option value="0" <?php echo ($intAuthor == 0)?'selected':''; ?> >Tous les auteurs</option>
-									<option value="1" <?php echo ($intAuthor == 1)?'selected':''; ?> >Christel</option>
-									<option value="2" <?php echo ($intAuthor == 2)?'selected':''; ?> >Test</option>
 									<!-- Faire une boucle sur les users de la base de données -->
+									<?php
+									foreach($arrUser as $arrDetUser){
+									?>
+										<option value="<?php echo $arrDetUser['user_id']; ?>" 
+											<?php echo ($intAuthor == $arrDetUser['user_id'])?'selected':''; ?> 
+										>
+											<?php echo $arrDetUser['user_firstname'].' '.$arrDetUser['user_name']; ?>
+										</option>
+									<?php
+									}
+									?>
 								</select>
 							</div>
+
 							
 							<div class="col-12">
 								<fieldset>

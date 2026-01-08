@@ -3,7 +3,7 @@
 					 int $intPeriod=0, string $strDate='', string $strStartDate='', 
 					 string $strEndDate=''):array{
 		// inclure la connexion
-		require_once("connexion.php");
+		require("connexion.php");
 		
 		// Ecrire la requête
 		$strRq	= "SELECT articles.*, 
