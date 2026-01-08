@@ -37,14 +37,15 @@
 		// Si le formulaire est rempli correctement
 		if (count($arrError) == 0){
 			// => Ajout dans la base de données 
-			// 1. Etablir la connexion
-			require_once("connexion.php");
-			// 2. Construire la requête
-			$strRq	= "INSERT INTO users (user_name, user_firstname, user_mail, user_pwd)
-						VALUES ('".$strName."', '".$strFirstname."', '".$strMail."', '".$strPwd."')";
-			// 3. Executer la requête
-			$db->exec($strRq);
-			
+			require("user_model.php");
+			$intNbInsert = insert($strName, $strFirstname, $strMail, $strPwd);
+			if ($intNbInsert === 1){
+				$_SESSION['success'] 	= "Le compte a bien été créé";
+				header("Location:index.php");
+				exit;
+			}else{
+				$arrError[] = "Erreur lors de l'ajout";
+			}
 			//var_dump("tout est ok");
 		}
 	}	

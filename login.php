@@ -27,15 +27,8 @@
 		// Si le formulaire est rempli correctement
 		if (count($arrError) == 0){
 			// Vérifier l'utilisateur en BDD
-			// 1. Etablir la connexion
-			require_once("connexion.php");
-			// 2. Construire la requête
-			$strRq	= "SELECT user_id, user_name, user_firstname, user_pwd
-						FROM users
-						WHERE user_mail = '".$strMail."' AND user_pwd = '".$strPwd."'";
-			//var_dump($strRq);
-			// 3. Executer la requête et récupérer les résultats
-			$arrResult = $db->query($strRq)->fetch();
+			require("user_model.php");
+			$arrResult = verifUser($strMail, $strPwd);
 			//var_dump($arrResult);
 			if ($arrResult === false){ // Si la base de données ne renvoie rien
 				$arrError[] = "Mail ou mot de passe invalide";
