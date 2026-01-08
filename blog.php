@@ -11,11 +11,15 @@
 	//Récupérer les informations du Formulaire
 	$strKeywords 	= $_GET['keywords']??'';
 	$intAuthor		= $_GET['author']??0;
-
+	$intPeriod		= $_GET['period']??0;
+	$strDate		= $_GET['date']??'';
+	$strStartDate	= $_GET['startdate']??'';
+	$strEndDate		= $_GET['enddate']??'';
+	var_dump($_GET);
 
 	// Récupération des articles 
 	require("article_model.php");
-	$arrArticle = findAll(0, $strKeywords, $intAuthor);
+	$arrArticle = findAll(0, $strKeywords, $intAuthor, $intPeriod, $strDate, $strStartDate, $strEndDate);
 	
 	
 ?>
@@ -66,7 +70,7 @@
 											name="period" 
 											id="period-exact" 
 											value="0" 
-											checked
+											<?php echo ($intPeriod == 0)?'checked':'' ; ?>
 											aria-controls="date-exact date-range">
 										<label class="form-check-label" for="period-exact">
 											Date exacte
@@ -79,6 +83,7 @@
 											name="period" 
 											id="period-range" 
 											value="1"
+											<?php echo ($intPeriod == 1)?'checked':'' ; ?>
 											aria-controls="date-exact date-range">
 										<label class="form-check-label" for="period-range">
 											Période
@@ -94,7 +99,8 @@
 									class="form-control" 
 									id="date" 
 									name="date"
-									aria-describedby="date-help">
+									aria-describedby="date-help"
+									value="<?php echo $strDate; ?>" >
 								<small id="date-help" class="form-text text-muted">
 									Format: JJ/MM/AAAA
 								</small>
@@ -108,7 +114,8 @@
 											type="date" 
 											class="form-control" 
 											id="startdate" 
-											name="startdate">
+											name="startdate"
+											value="<?php echo $strStartDate; ?>" >
 									</div>
 									<div class="col-md-6">
 										<label for="enddate" class="form-label">Date de fin</label>
@@ -116,7 +123,8 @@
 											type="date" 
 											class="form-control" 
 											id="enddate" 
-											name="enddate">
+											name="enddate"
+											value="<?php echo $strEndDate; ?>" >
 									</div>
 								</div>
 							</div>
@@ -140,6 +148,13 @@
             <h3 id="articles-heading" class="visually-hidden">Liste des articles</h3>
             <div class="row mb-2">
 			<?php
+			if (count($arrArticle) == 0){
+			?>
+				<div class="alert alert-warning">
+					<p>Pas de résultats</p>
+				</div>
+			<?php
+			}
 			foreach($arrArticle as $arrDetArticle){
 				//var_dump($arrDetArticle);
 				// Traiter le résumé

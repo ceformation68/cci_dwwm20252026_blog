@@ -1,5 +1,5 @@
 <?php
-	function findAll($intLimit=0, $strKeywords='', $intAuthor=0 ){
+	function findAll($intLimit=0, $strKeywords='', $intAuthor=0, $intPeriod=0 , $strDate='', $strStartDate='', $strEndDate=''){
 		// inclure la connexion
 		require_once("connexion.php");
 		
@@ -27,6 +27,29 @@
 				$strRq .= " WHERE ";
 			}*/
 			$strRq .= $strWhere." article_creator = ".$intAuthor;
+			$strWhere	= " AND ";
+		}
+		
+		// Recherche par dates
+		if ($intPeriod == 0){
+			// Par date exacte
+			if ($strDate != ''){
+				$strRq .= $strWhere." article_createdate = '".$strDate."'";
+			}
+		}else{
+			// Par période de dates
+			if ($strStartDate != '' && $strEndDate != ''){
+			//if ( ($strStartDate != '') && ($strEndDate != '') ){ Parethèses selon le développeur - pas de changement si que des && - Attention ||
+				$strRq .= $strWhere." article_createdate BETWEEN '".$strStartDate."' AND '".$strEndDate."'";
+			}else{
+				if ($strStartDate != ''){
+					// A partir de
+					$strRq .= $strWhere." article_createdate >= '".$strStartDate."'";
+				}else if ($strEndDate != ''){
+					// Avant le
+					$strRq .= $strWhere." article_createdate <= '".$strEndDate."'";
+				}
+			}
 		}
 		
 		$strRq .= " ORDER BY article_createdate DESC";
