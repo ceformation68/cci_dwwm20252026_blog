@@ -10,7 +10,8 @@
 	
 	// Récupération des articles 
 	require("article_model.php");
-	$arrArticle = findAll(4);
+	$objArticleModel 	= new ArticleModel;
+	$arrArticle 		= $objArticleModel->findAll(4);
 ?>
 <section aria-label="Articles récents">
 	<h2 class="visually-hidden">Les 4 derniers articles</h2>

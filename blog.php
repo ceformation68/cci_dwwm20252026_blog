@@ -18,14 +18,16 @@
 
 	// Récupération des articles 
 	require("article_model.php");
+	$objArticleModel 	= new ArticleModel;
 	//$arrArticle = findAll(0, $strKeywords, $intAuthor, $intPeriod, $strDate, $strStartDate, $strEndDate);
 	// Depuis PHP 8 - accès direct aux paramètres
-	$arrArticle = findAll(intAuthor:$intAuthor, intPeriod:$intPeriod, strDate:$strDate, 
-						  strKeywords:$strKeywords, strStartDate:$strStartDate, strEndDate:$strEndDate);
-	
+	$arrArticle 		= $objArticleModel->findAll(intAuthor:$intAuthor, intPeriod:$intPeriod, strDate:$strDate, 
+							strKeywords:$strKeywords, strStartDate:$strStartDate, strEndDate:$strEndDate);
+
 	// Récupération des utilisateurs
 	require("user_model.php");
-	$arrUser 	= findAllUsers();
+	$objUserModel 	= new UserModel;
+	$arrUser 		= $objUserModel->findAllUsers();
 ?>
         <!-- Formulaire de recherche -->
 		<section aria-label="Blog">

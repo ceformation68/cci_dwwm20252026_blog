@@ -1,5 +1,5 @@
 <?php
-	require("connexion.php");
+	require_once("connexion.php");
 
 	/**
 	* Traitement des requêtes pour les utilisateurs
@@ -19,13 +19,11 @@
          * @return array
          */
 		public function findAllUsers():array{
-			// inclure la connexion
-			require("connexion.php");
 			// Ecrire la requête
 			$strRq	= "SELECT user_id, user_firstname, user_name
 						FROM users ";
 			// Lancer la requête et récupérer les résultats
-			return $db->query($strRq)->fetchAll();
+			return $this->_db->query($strRq)->fetchAll();
 		}
 
         /**
@@ -34,14 +32,21 @@
          * @return array|bool
          */
 		public function verifUser(string $strMail, string $strPwd):array|bool{
-			// 1. Etablir la connexion
-			require("connexion.php");
 			// 2. Construire la requête
 			$strRq	= "SELECT user_id, user_name, user_firstname, user_pwd
 						FROM users
-						WHERE user_mail = '".$strMail."' AND user_pwd = '".$strPwd."'";
-			// 3. Executer la requête et récupérer les résultats
-			return $db->query($strRq)->fetch();
+						WHERE user_mail = '".$strMail."'";
+			// Récupère mon utilisateur
+			// Executer la requête et récupérer les résultats
+			$arrUser 	= $this->_db->query($strRq)->fetch();
+			// Vérification du mot de passe haché
+			if (password_verify($strPwd, $arrUser['user_pwd'])){
+				// Renvoi l'utilisateur 
+				unset($arrResult['user_pwd']); // on enlève le pwd
+				return $arrUser;
+			}else{
+				return false;
+			}
 		}
 		
 		//public function insert(string $strName, string $strFirstname, string $strMail, string $strPwd):int{

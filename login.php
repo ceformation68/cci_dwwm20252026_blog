@@ -28,7 +28,8 @@
 		if (count($arrError) == 0){
 			// Vérifier l'utilisateur en BDD
 			require("user_model.php");
-			$arrResult = verifUser($strMail, $strPwd);
+			$objUserModel 	= new UserModel;
+			$arrResult 		= $objUserModel->verifUser($strMail, $strPwd);
 			//var_dump($arrResult);
 			if ($arrResult === false){ // Si la base de données ne renvoie rien
 				$arrError[] = "Mail ou mot de passe invalide";
@@ -38,7 +39,7 @@
 				$_SESSION['name']			= $arrResult['user_name'];
 				$_SESSION['id']				= $arrResult['user_id'];*/
 				// j'enlève le mot de passe avant la session
-				unset($arrResult['user_pwd']);
+				//unset($arrResult['user_pwd']);
 				$_SESSION['user']		= $arrResult;
 				$_SESSION['success'] 	= "Bienvenue, vous êtes bien connecté";
 				
