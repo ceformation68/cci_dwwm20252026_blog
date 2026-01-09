@@ -12,12 +12,22 @@
 	require("article_model.php");
 	$objArticleModel 	= new ArticleModel;
 	$arrArticle 		= $objArticleModel->findAll(4);
+	
+	require("article_entity.php");
+	$arrArticleToDisplay	= array();
+	foreach($arrArticle as $arrDetArticle){
+		$objArticle = new Article;
+		$objArticle->setContent($arrDetArticle['article_content']); 
+		
+		$arrArticleToDisplay[]	= $objArticle;
+	}
+	
 ?>
 <section aria-label="Articles récents">
 	<h2 class="visually-hidden">Les 4 derniers articles</h2>
 	<div class="row mb-2">
 	<?php
-		foreach($arrArticle as $arrDetArticle){
+		foreach($arrArticleToDisplay as $objArticle){
 			//var_dump($arrDetArticle);
 			// Traiter le résumé
 			$strSummary = mb_strimwidth($arrDetArticle['article_content'], 0, 70, "...");

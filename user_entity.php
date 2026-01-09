@@ -1,11 +1,12 @@
 <?php
-	class User{
+	require_once("mother_entity.php");
+	
+	class User extends Entity{
 		// Attributs 
 		private string $_name;
 		private string $_firstname;
 		private string $_mail;
 		private string $_pwd;	
-		
 		
 		// Méthodes - getters et setters
 		public function getName():string{
@@ -36,13 +37,6 @@
 			$this->_pwd = $strPwd;
 		}		
 		
-		// Méthodes 
-		private function nettoyer(string $strText){
-			$strText	= trim($strText);
-			$strText	= str_replace("<script>", "", $strText);
-			$strText	= str_replace("</script>", "", $strText);
-			return $strText;
-		}
 		
 		
 		
