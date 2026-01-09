@@ -16,21 +16,28 @@
 	$strPwd 		= $_POST['pwd']??"";
 	$strPwdConfirm	= $_POST['pwd_confirm']??"";
 	
+	require("user_entity.php");
+	$objUser	= new User;
+	$objUser->setName($strName);
+	$objUser->setFirstname($strFirstname);
+	$objUser->setMail($strMail);
+	$objUser->setPwd($strPwd);
+	
 	// Tester le formulaire
 	$arrError = [];
 	if (count($_POST) > 0) {
-		if ($strName == ""){
+		if ($objUser->getName() == ""){
 			$arrError['name'] = "Le nom est obligatoire";
 		}	
-		if ($strFirstname == ""){
+		if ($objUser->getFirstname() == ""){
 			$arrError['firstname'] = "Le prénom est obligatoire";
 		}	
-		if ($strMail == ""){
+		if ($objUser->getMail() == ""){
 			$arrError['mail'] = "Le mail est obligatoire";
 		}	
-		if ($strPwd == ""){
+		if ($objUser->getPwd() == ""){
 			$arrError['pwd'] = "Le mot de passe est obligatoire";
-		}else if($strPwd != $strPwdConfirm){
+		}else if($objUser->getPwd() != $strPwdConfirm){
 			$arrError['pwd_confirm'] = "Le mot de passe et sa confirmation ne sont pas identiques";
 		}
 		
@@ -38,11 +45,13 @@
 		if (count($arrError) == 0){
 			// => Ajout dans la base de données 
 			require("user_model.php");
-			$intNbInsert = insert($strName, $strFirstname, $strMail, $strPwd);
-			if ($intNbInsert === 1){
+			$objUserModel	= new UserModel;
+			//$intNbInsert 	= $objUserModel->insert($strName, $strFirstname, $strMail, $strPwd);
+			$boolInsert 	= $objUserModel->insert($objUser);
+			if ($boolInsert === true){
 				$_SESSION['success'] 	= "Le compte a bien été créé";
-				header("Location:index.php");
-				exit;
+				//header("Location:index.php");
+				//exit;
 			}else{
 				$arrError[] = "Erreur lors de l'ajout";
 			}
@@ -61,17 +70,17 @@
 	<form method="post">
 		<p>
 			<label>Nom:</label>
-			<input name="name" value="<?php echo($strName); ?>" 
+			<input name="name" value="<?php echo($objUser->getName()); ?>" 
 				class="form-control <?php if (isset($arrError['name'])) { echo 'is-invalid'; } ?> " type="text" >
 		</p>
 		<p>
 			<label>Prénom:</label>
-			<input name="firstname" value="<?php echo($strFirstname); ?>" 
+			<input name="firstname" value="<?php echo($objUser->getFirstname()); ?>" 
 				class="form-control <?php if (isset($arrError['firstname'])) { echo 'is-invalid'; } ?> " type="text" >
 		</p>
 		<p>
 			<label>Mail:</label>
-			<input name="mail" value="<?php echo($strMail); ?>" 
+			<input name="mail" value="<?php echo($objUser->getMail()); ?>" 
 				class="form-control <?php if (isset($arrError['mail'])) { echo 'is-invalid'; } ?> " type="text" >
 		</p>
 		<p>
