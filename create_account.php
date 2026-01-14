@@ -37,12 +37,18 @@
 		}	
 		if ($objUser->getMail() == ""){
 			$arrError['mail'] = "Le mail est obligatoire";
-		}	
+		}else if (!filter_var($objUser->getMail(), FILTER_VALIDATE_EMAIL)){
+			$arrError['mail'] = "Le format du mail n'est pas correct";
+		}
+		$strRegex = "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{16,}$/";
 		if ($objUser->getPwd() == ""){
 			$arrError['pwd'] = "Le mot de passe est obligatoire";
+		}else if (!preg_match($strRegex, $objUser->getPwd())){
+			$arrError['pwd'] = "Le mot de passe ne correspond pas aux règles";
 		}else if($objUser->getPwd() != $strPwdConfirm){
 			$arrError['pwd_confirm'] = "Le mot de passe et sa confirmation ne sont pas identiques";
 		}
+		// Ajouter la vérification du mot de passe par regex
 		
 		// Si le formulaire est rempli correctement
 		if (count($arrError) == 0){
@@ -88,11 +94,11 @@
 		</p>
 		<p>
 			<label>Mot de passe:</label>
-			<input name="pwd" class="form-control <?php if (isset($arrError['pwd'])) { echo 'is-invalid'; } ?> " type="text" >
+			<input name="pwd" class="form-control <?php if (isset($arrError['pwd'])) { echo 'is-invalid'; } ?> " type="password" >
 		</p>
 		<p>
 			<label>Confirmation du mot de passe:</label>
-			<input name="pwd_confirm" class="form-control <?php if (isset($arrError['pwd_confirm'])) { echo 'is-invalid'; } ?> " type="text" >
+			<input name="pwd_confirm" class="form-control <?php if (isset($arrError['pwd_confirm'])) { echo 'is-invalid'; } ?> " type="password" >
 		</p>
 		<p>
 			<input class="form-control btn btn-primary" type="submit" >
