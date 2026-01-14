@@ -1,49 +1,28 @@
 <?php
-	// Variables d'affichage
-	$strH2		= "Accueil";
-	$strP		= "Découvrez nos derniers articles sur le développement web";
-	// Variables technique
-	$strPage	= "home";
+	// Récupère les infos dans l'url
+	$strCtrl	= $_GET['ctrl']??'article'; // quel contrôleur ?
+	$strMethod	= $_GET['action']??'home'; // quel méthode ?
 	
-	// inclusion du header
-	include("_partial/header.php");
-	
-	// Récupération des articles 
-	require("article_model.php");
-	$objArticleModel 	= new ArticleModel;
-	$arrArticle 		= $objArticleModel->findAll(4);
-	
-	require("article_entity.php");
-	// Initialisation d'un tableau => objets
-	$arrArticleToDisplay	= array(); 
-	// Boucle de transformation du tableau de tableau en tableau d'objets
-	foreach($arrArticle as $arrDetArticle){
-		$objArticle = new Article;
-		$objArticle->hydrate($arrDetArticle);
-		
-		/*
-		$objArticle->setId($arrDetArticle['article_id']); 
-		$objArticle->setTitle($arrDetArticle['article_title']); 
-		$objArticle->setImg($arrDetArticle['article_img']); 
-		$objArticle->setContent($arrDetArticle['article_content']); 
-		$objArticle->setCreatedate($arrDetArticle['article_createdate']); 
-		$objArticle->setCreatorname($arrDetArticle['article_creatorname']); 
-		*/
-		
-		$arrArticleToDisplay[]	= $objArticle;
+	$boolError		= false;
+	$strFileName	= "controllers/".$strCtrl."_controller.php";
+	if (file_exists($strFileName)){
+		require($strFileName);
+		$strClassName	= ucfirst($strCtrl)."Ctrl";
+		if (class_exists($strClassName)){
+			$objController 	= new $strClassName();
+			if (method_exists($objController, $strMethod)){
+				$objController->$strMethod();
+			}else{
+				$boolError	= true;
+			}
+		}else{
+			$boolError	= true;
+		}
+	}else{
+		$boolError	= true;
 	}
 	
-?>
-<section aria-label="Articles récents">
-	<h2 class="visually-hidden">Les 4 derniers articles</h2>
-	<div class="row mb-2">
-	<?php
-		// Tableau d'affichage
-		foreach($arrArticleToDisplay as $objArticle){
-			include("_partial/article.php");
-		} 
-	?>
-	</div>
-</section>
-<?php 
-	include("_partial/footer.php");
+	if($boolError){
+		echo "error 404 - page introuvable"; 
+		// remplacer par redirection vers controller error -> 404
+	}

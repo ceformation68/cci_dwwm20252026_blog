@@ -7,7 +7,7 @@
 			<a class="nav-link link-body-emphasis <?php if ($strPage == "about") { echo("active"); } ?>" href="about.php">À propos</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link link-body-emphasis <?php echo ($strPage == "blog")?"active":""; ?>" href="blog.php">Blog</a>
+			<a class="nav-link link-body-emphasis <?php echo ($strPage == "blog")?"active":""; ?>" href="index.php?ctrl=article&action=blog">Blog</a>
 		</li>
 		<li class="nav-item">
 			<a class="nav-link link-body-emphasis <?php echo ($strPage == "contact")?"active":""; ?>" href="contact.php">Contact</a>
