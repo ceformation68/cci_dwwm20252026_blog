@@ -3,10 +3,18 @@
 	
 	class User extends Entity{
 		// Attributs 
-		private string $_name;
-		private string $_firstname;
-		private string $_mail;
+		private string $_name = '';
+		private string $_firstname = '';
+		private string $_mail = '';
 		private string $_pwd;	
+		
+		/**
+		* Constructeur
+		*/
+		public function __construct(){
+			// Préfixe de la table pour hydratation
+			$this->_prefixe = 'user_';
+		}
 		
 		// Méthodes - getters et setters
 		public function getName():string{

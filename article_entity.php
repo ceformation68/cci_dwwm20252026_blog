@@ -14,6 +14,14 @@
 		private int $_creator;
 		private string $_creatorname;
 		
+		/**
+		* Constructeur
+		*/
+		public function __construct(){
+			// Préfixe de la table pour hydratation
+			$this->_prefixe = 'article_';
+		}
+		
 		// Méthodes - getters et setters
 
 		/**

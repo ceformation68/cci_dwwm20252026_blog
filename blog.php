@@ -30,12 +30,7 @@
 	// Boucle de transformation du tableau de tableau en tableau d'objets
 	foreach($arrArticle as $arrDetArticle){
 		$objArticle = new Article;
-		$objArticle->setId($arrDetArticle['article_id']); 
-		$objArticle->setTitle($arrDetArticle['article_title']); 
-		$objArticle->setImg($arrDetArticle['article_img']); 
-		$objArticle->setContent($arrDetArticle['article_content']); 
-		$objArticle->setCreatedate($arrDetArticle['article_createdate']); 
-		$objArticle->setCreatorname($arrDetArticle['article_creatorname']); 
+		$objArticle->hydrate($arrDetArticle);
 		
 		$arrArticleToDisplay[]	= $objArticle;
 	}

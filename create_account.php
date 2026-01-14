@@ -18,11 +18,14 @@
 	
 	require("user_entity.php");
 	$objUser	= new User;
+	$objUser->hydrate($_POST);
+
+	/*
 	$objUser->setName($strName);
 	$objUser->setFirstname($strFirstname);
 	$objUser->setMail($strMail);
 	$objUser->setPwd($strPwd);
-	
+	*/
 	// Tester le formulaire
 	$arrError = [];
 	if (count($_POST) > 0) {
