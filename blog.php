@@ -24,6 +24,22 @@
 	$arrArticle 		= $objArticleModel->findAll(intAuthor:$intAuthor, intPeriod:$intPeriod, strDate:$strDate, 
 							strKeywords:$strKeywords, strStartDate:$strStartDate, strEndDate:$strEndDate);
 
+	require("article_entity.php");
+	// Initialisation d'un tableau => objets
+	$arrArticleToDisplay	= array(); 
+	// Boucle de transformation du tableau de tableau en tableau d'objets
+	foreach($arrArticle as $arrDetArticle){
+		$objArticle = new Article;
+		$objArticle->setId($arrDetArticle['article_id']); 
+		$objArticle->setTitle($arrDetArticle['article_title']); 
+		$objArticle->setImg($arrDetArticle['article_img']); 
+		$objArticle->setContent($arrDetArticle['article_content']); 
+		$objArticle->setCreatedate($arrDetArticle['article_createdate']); 
+		$objArticle->setCreatorname($arrDetArticle['article_creatorname']); 
+		
+		$arrArticleToDisplay[]	= $objArticle;
+	}
+
 	// Récupération des utilisateurs
 	require("user_model.php");
 	$objUserModel 	= new UserModel;
@@ -171,23 +187,7 @@
 				</div>
 			<?php
 			}
-			foreach($arrArticle as $arrDetArticle){
-				//var_dump($arrDetArticle);
-				// Traiter le résumé
-				$strSummary = mb_strimwidth($arrDetArticle['article_content'], 0, 70, "...");
-				
-				// Traiter l'affichage de la date
-				$objDate	= new DateTime($arrDetArticle['article_createdate']);
-				//$strDate	= $objDate->format("d/m/Y"); // en anglais
-				
-				// Version avec configuration pour l'avoir en français
-				$objDateFormatter	= new IntlDateFormatter(
-					"fr_FR", // langue
-					IntlDateFormatter::LONG,  // format de date
-					IntlDateFormatter::NONE, // format heure
-				);
-				$strDate	= $objDateFormatter->format($objDate);
-				
+			foreach($arrArticleToDisplay as $objArticle){
 				include("_partial/article.php");
 			} ?>                
             </div>

@@ -14,38 +14,32 @@
 	$arrArticle 		= $objArticleModel->findAll(4);
 	
 	require("article_entity.php");
-	$arrArticleToDisplay	= array();
+	// Initialisation d'un tableau => objets
+	$arrArticleToDisplay	= array(); 
+	// Boucle de transformation du tableau de tableau en tableau d'objets
 	foreach($arrArticle as $arrDetArticle){
 		$objArticle = new Article;
+		$objArticle->setId($arrDetArticle['article_id']); 
+		$objArticle->setTitle($arrDetArticle['article_title']); 
+		$objArticle->setImg($arrDetArticle['article_img']); 
 		$objArticle->setContent($arrDetArticle['article_content']); 
+		$objArticle->setCreatedate($arrDetArticle['article_createdate']); 
+		$objArticle->setCreatorname($arrDetArticle['article_creatorname']); 
 		
 		$arrArticleToDisplay[]	= $objArticle;
 	}
+	var_dump($arrArticleToDisplay);
 	
 ?>
 <section aria-label="Articles récents">
 	<h2 class="visually-hidden">Les 4 derniers articles</h2>
 	<div class="row mb-2">
 	<?php
+		// Tableau d'affichage
 		foreach($arrArticleToDisplay as $objArticle){
-			//var_dump($arrDetArticle);
-			// Traiter le résumé
-			$strSummary = mb_strimwidth($arrDetArticle['article_content'], 0, 70, "...");
-			
-			// Traiter l'affichage de la date
-			$objDate	= new DateTime($arrDetArticle['article_createdate']);
-			//$strDate	= $objDate->format("d/m/Y"); // en anglais
-			
-			// Version avec configuration pour l'avoir en français
-			$objDateFormatter	= new IntlDateFormatter(
-                "fr_FR", // langue
-                IntlDateFormatter::LONG,  // format de date
-                IntlDateFormatter::NONE, // format heure
-            );
-			$strDate	= $objDateFormatter->format($objDate);
-			
 			include("_partial/article.php");
-		} ?>
+		} 
+	?>
 	</div>
 </section>
 <?php 
