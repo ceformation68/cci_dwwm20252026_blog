@@ -45,20 +45,20 @@
 			// Variables technique
 			$this->_arrData['strPage']	= "blog";
 			
-			//Récupérer les informations du Formulaire
-			$strKeywords 	= $_POST['keywords']??'';
-			$intAuthor		= $_POST['author']??0;
-			$intPeriod		= $_POST['period']??0;
-			$strDate		= $_POST['date']??'';
-			$strStartDate	= $_POST['startdate']??'';
-			$strEndDate		= $_POST['enddate']??'';
-
 			// Récupération des articles 
 			$objArticleModel 	= new ArticleModel;
+
+			//Récupérer les informations du Formulaire
+			$objArticleModel->strKeywords 	= $_POST['keywords']??'';
+			$objArticleModel->intAuthor		= $_POST['author']??0;
+			$objArticleModel->intPeriod		= $_POST['period']??0;
+			$objArticleModel->strDate		= $_POST['date']??'';
+			$objArticleModel->strStartDate	= $_POST['startdate']??'';
+			$objArticleModel->strEndDate	= $_POST['enddate']??'';
+
 			//$arrArticle = findAll(0, $strKeywords, $intAuthor, $intPeriod, $strDate, $strStartDate, $strEndDate);
 			// Depuis PHP 8 - accès direct aux paramètres
-			$arrArticle 		= $objArticleModel->findAll(intAuthor:$intAuthor, intPeriod:$intPeriod, strDate:$strDate, 
-									strKeywords:$strKeywords, strStartDate:$strStartDate, strEndDate:$strEndDate);
+			$arrArticle 		= $objArticleModel->findAll();
 
 			// Initialisation d'un tableau => objets
 			$arrArticleToDisplay	= array(); 
@@ -77,12 +77,12 @@
 			
 			$this->_arrData['arrUser']		= $arrUser;
 			
-			$this->_arrData['strKeywords']	= $strKeywords;
-			$this->_arrData['intAuthor']	= $intAuthor;
-			$this->_arrData['intPeriod']	= $intPeriod;
-			$this->_arrData['strDate']		= $strDate;
-			$this->_arrData['strStartDate']	= $strStartDate;
-			$this->_arrData['strEndDate']	= $strEndDate;
+			$this->_arrData['strKeywords']	= $objArticleModel->strKeywords;
+			$this->_arrData['intAuthor']	= $objArticleModel->intAuthor;
+			$this->_arrData['intPeriod']	= $objArticleModel->intPeriod;
+			$this->_arrData['strDate']		= $objArticleModel->strDate;
+			$this->_arrData['strStartDate']	= $objArticleModel->strStartDate;
+			$this->_arrData['strEndDate']	= $objArticleModel->strEndDate;
 
 			// Donner arrArticleToDisplay à maman pour l'affichage
 			$this->_arrData['arrArticleToDisplay']	= $arrArticleToDisplay;

@@ -7,9 +7,19 @@
 	*/
 	class ArticleModel extends Connect{
 		
-		public function findAll(int $intLimit=0, string $strKeywords='', int $intAuthor=0, 
-						 int $intPeriod=0, string $strDate='', string $strStartDate='', 
-						 string $strEndDate=''):array{
+		public string 	$strKeywords	= '';
+		public int 		$intAuthor		= 0;
+		public int 		$intPeriod		= 0; 
+		public string 	$strDate		= ''; 
+		public string 	$strStartDate	= '';
+		public string 	$strEndDate		= '';
+		
+		/**
+		* Fonction de recherche des articles
+		* @param int $intLimit Nb de résultats demandés, par défaut 0 = tous
+		* @return array Tableau des articles provenant de la base de données 
+		*/		
+		public function findAll(int $intLimit=0):array{
 			
 			// Ecrire la requête
 			$strRq	= "SELECT articles.*, 
@@ -20,42 +30,42 @@
 			//$boolWhere	= false; // flag
 			$strWhere	= " WHERE ";
 			// Recherche par mot clé
-			if ($strKeywords != '') {
-				$strRq .= " WHERE (article_title LIKE '%".$strKeywords."%'
-								OR article_content LIKE '%".$strKeywords."%') ";
+			if ($this->strKeywords != '') {
+				$strRq .= " WHERE (article_title LIKE '%".$this->strKeywords."%'
+								OR article_content LIKE '%".$this->strKeywords."%') ";
 				//$boolWhere	= true;
 				$strWhere	= " AND ";
 			}
 			
 			// Recherche par auteur
-			if ($intAuthor > 0){
+			if ($this->intAuthor > 0){
 				/*if ($boolWhere){
 					$strRq .= " AND ";
 				}else{
 					$strRq .= " WHERE ";
 				}*/
-				$strRq .= $strWhere." article_creator = ".$intAuthor;
+				$strRq .= $strWhere." article_creator = ".$this->intAuthor;
 				$strWhere	= " AND ";
 			}
 			
 			// Recherche par dates
-			if ($intPeriod == 0){
+			if ($this->intPeriod == 0){
 				// Par date exacte
-				if ($strDate != ''){
-					$strRq .= $strWhere." article_createdate = '".$strDate."'";
+				if ($this->strDate != ''){
+					$strRq .= $strWhere." article_createdate = '".$this->strDate."'";
 				}
 			}else{
 				// Par période de dates
-				if ($strStartDate != '' && $strEndDate != ''){
+				if ($this->strStartDate != '' && $this->strEndDate != ''){
 				//if ( ($strStartDate != '') && ($strEndDate != '') ){ Parethèses selon le développeur - pas de changement si que des && - Attention ||
-					$strRq .= $strWhere." article_createdate BETWEEN '".$strStartDate."' AND '".$strEndDate."'";
+					$strRq .= $strWhere." article_createdate BETWEEN '".$this->strStartDate."' AND '".$this->strEndDate."'";
 				}else{
-					if ($strStartDate != ''){
+					if ($this->strStartDate != ''){
 						// A partir de
-						$strRq .= $strWhere." article_createdate >= '".$strStartDate."'";
-					}else if ($strEndDate != ''){
+						$strRq .= $strWhere." article_createdate >= '".$this->strStartDate."'";
+					}else if ($this->strEndDate != ''){
 						// Avant le
-						$strRq .= $strWhere." article_createdate <= '".$strEndDate."'";
+						$strRq .= $strWhere." article_createdate <= '".$this->strEndDate."'";
 					}
 				}
 			}
