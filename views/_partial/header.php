@@ -1,9 +1,3 @@
-<?php
-	// Activer la session sur toutes les pages qui incluent le header
-	session_start();
-	//var_dump($_SESSION);
-?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -44,11 +38,11 @@
                     </a>
                 </div>
 				
-				<?php require("_partial/nav_user.php"); ?>
+				<?php require("views/_partial/nav_user.php"); ?>
             </div>
         </header>
 
-		<?php require("_partial/nav.php"); ?>
+		<?php require("views/_partial/nav.php"); ?>
     </div>
 
     <main id="main-content" class="container">

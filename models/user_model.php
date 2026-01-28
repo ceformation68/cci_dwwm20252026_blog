@@ -1,5 +1,5 @@
 <?php
-	require_once("connexion.php");
+	require_once("mother_model.php");
 
 	/**
 	* Traitement des requêtes pour les utilisateurs
@@ -42,7 +42,7 @@
 			// Vérification du mot de passe haché
 			if (password_verify($strPwd, $arrUser['user_pwd'])){
 				// Renvoi l'utilisateur 
-				unset($arrResult['user_pwd']); // on enlève le pwd
+				unset($arrUser['user_pwd']); // on enlève le pwd
 				return $arrUser;
 			}else{
 				return false;

@@ -1,5 +1,5 @@
 <?php
-	require_once("connexion.php");
+	require_once("mother_model.php");
 	/**
 	* Traitement des requêtes pour les articles
 	* @author : Christel

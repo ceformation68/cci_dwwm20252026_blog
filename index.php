@@ -1,4 +1,7 @@
 <?php
+	// ici plutôt que dans le header pour également les pages sans affichage
+	session_start(); 
+	
 	// Récupère les infos dans l'url
 	$strCtrl	= $_GET['ctrl']??'article'; // quel contrôleur ?
 	$strMethod	= $_GET['action']??'home'; // quel méthode ?
@@ -29,6 +32,8 @@
 	}
 	
 	if($boolError){
-		echo "error 404 - page introuvable"; 
+		//echo "error 404 - page introuvable"; 
 		// remplacer par redirection vers controller error -> 404
+		header("Location:index.php?ctrl=error&action=error_404");
+		exit;
 	}
