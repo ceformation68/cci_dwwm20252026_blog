@@ -59,14 +59,7 @@
             </div>
         </section>
 		
-		<?php if (isset($_SESSION['success'])){ ?>
-			<div class="alert alert-success">
-				<p><?php 
-						echo $_SESSION['success']; 
-						unset($_SESSION['success']);
-					?>
-				</p>
-			</div>
-		<?php } ?>
+	<?php
+		include("views/_partial/messages.php");
 				
 		

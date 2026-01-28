@@ -1,11 +1,4 @@
 <section aria-label="Se connecter">
-	<?php if (count($arrError) > 0) {?>
-		<div class="alert alert-danger">
-		<?php foreach ($arrError as $strError){ ?>
-			<p><?php echo $strError; ?></p>
-		<?php }	?>
-		</div>
-	<?php } ?>
 	<form method="post">
 		<p>
 			<label>Mail:</label>
