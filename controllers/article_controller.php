@@ -13,7 +13,7 @@
 		*/
 		public function home(){
 			// Variables d'affichage
-			$this->_arrData['strH2']	= "Accueil";
+			//$this->_arrData['strH2']	= "Accueil";
 			$this->_arrData['strP']		= "Découvrez nos derniers articles sur le développement web";
 			// Variables technique
 			$this->_arrData['strPage']	= "home";
