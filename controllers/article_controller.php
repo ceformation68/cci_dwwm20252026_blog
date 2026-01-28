@@ -6,27 +6,21 @@
 	* Le contrôleur des articles
 	* @author Christel
 	*/
-	class ArticleCtrl{
+	class ArticleCtrl extends MotherCtrl{
 		
 		/**
 		* Page d'accueil 
-		* @todo Optimiser l'affichage
 		*/
 		public function home(){
 			// Variables d'affichage
-			$strH2		= "Accueil";
-			$strP		= "Découvrez nos derniers articles sur le développement web";
+			$this->_arrData['strH2']	= "Accueil";
+			$this->_arrData['strP']		= "Découvrez nos derniers articles sur le développement web";
 			// Variables technique
-			$strPage	= "home";
-			
-			// inclusion du header
-			include("views/_partial/header.php");
+			$this->_arrData['strPage']	= "home";
 			
 			// Récupération des articles 
-			
 			$objArticleModel 	= new ArticleModel;
 			$arrArticle 		= $objArticleModel->findAll(4);
-			
 			
 			// Initialisation d'un tableau => objets
 			$arrArticleToDisplay	= array(); 
@@ -37,20 +31,20 @@
 				
 				$arrArticleToDisplay[]	= $objArticle;
 			}
-			include("views/home.php");
-			include("views/_partial/footer.php");
+			// Donner arrArticleToDisplay à maman pour l'affichage
+			$this->_arrData['arrArticleToDisplay']	= $arrArticleToDisplay;
+
+			// Afficher
+			$this->_display("home");
 		}
 		
 		public function blog(){
 			// Variables d'affichage
-			$strH2		= "Blog";
-			$strP		= "Découvrez tous nos articles et utilisez la recherche pour trouver ce qui vous intéresse";
+			$this->_arrData['strH2']	= "Blog";
+			$this->_arrData['strP']		= "Découvrez tous nos articles et utilisez la recherche pour trouver ce qui vous intéresse";
 			// Variables technique
-			$strPage	= "blog";
+			$this->_arrData['strPage']	= "blog";
 			
-			// inclusion du header
-			include("views/_partial/header.php");
-
 			//Récupérer les informations du Formulaire
 			$strKeywords 	= $_POST['keywords']??'';
 			$intAuthor		= $_POST['author']??0;
@@ -81,9 +75,20 @@
 			$objUserModel 	= new UserModel;
 			$arrUser 		= $objUserModel->findAllUsers();
 			
-			include("views/blog.php"); // Partie affichage 
+			$this->_arrData['arrUser']		= $arrUser;
 			
-			include("views/_partial/footer.php");
+			$this->_arrData['strKeywords']	= $strKeywords;
+			$this->_arrData['intAuthor']	= $intAuthor;
+			$this->_arrData['intPeriod']	= $intPeriod;
+			$this->_arrData['strDate']		= $strDate;
+			$this->_arrData['strStartDate']	= $strStartDate;
+			$this->_arrData['strEndDate']	= $strEndDate;
+
+			// Donner arrArticleToDisplay à maman pour l'affichage
+			$this->_arrData['arrArticleToDisplay']	= $arrArticleToDisplay;
+			
+			// Afficher
+			$this->_display("blog");
 		}
 		
 	}

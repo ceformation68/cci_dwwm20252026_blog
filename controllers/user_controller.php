@@ -6,20 +6,17 @@
 	* Le contrôleur des utilisateurs
 	* @author Christel
 	*/
-	class UserCtrl{
+	class UserCtrl extends MotherCtrl{
 		
 		/** 
 		* Page de création d'un compte
 		*/
 		public function create_account(){
 			// Variables d'affichage
-			$strH2		= "Créer un compte";
-			$strP		= "Inscrivez-vous";
+			$this->_arrData['strH2']	= "Créer un compte";
+			$this->_arrData['strP']		= "Inscrivez-vous";
 			// Variables technique
-			$strPage	= "create_account";
-			
-			// inclusion du header
-			include("views/_partial/header.php");
+			$this->_arrData['strPage']	= "create_account";
 			
 			// Traitement du formulaire
 			//var_dump($_POST);
@@ -73,8 +70,10 @@
 				}
 			}	
 			
-			include("views/create_account.php");
-			include("views/_partial/footer.php");
+			$this->_arrData['arrError'] = $arrError;
+			$this->_arrData['objUser'] 	= $objUser;
+			// Afficher
+			$this->_display("create_account");
 		}
 		
 		/**
@@ -82,13 +81,10 @@
 		*/
 		public function login(){
 			// Variables d'affichage
-			$strH2		= "Me connecter";
-			$strP		= "Connexion au site";
+			$this->_arrData['strH2']	= "Me connecter";
+			$this->_arrData['strP']		= "Connexion au site";
 			// Variables technique
-			$strPage	= "login";
-			
-			// inclusion du header
-			include("views/_partial/header.php");
+			$this->_arrData['strPage']	= "login";
 			
 			// Traitement du formulaire
 			//var_dump($_POST);
@@ -131,8 +127,11 @@
 					}
 				}
 			}
-			include("views/login.php");
-			include("views/_partial/footer.php");
+			
+			$this->_arrData['arrError'] = $arrError;
+			$this->_arrData['strMail'] 	= $strMail;
+			// Afficher
+			$this->_display("login");
 		}
 		
 		/**

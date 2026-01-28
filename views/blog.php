@@ -133,7 +133,7 @@
 	<h3 id="articles-heading" class="visually-hidden">Liste des articles</h3>
 	<div class="row mb-2">
 	<?php
-	if (count($arrArticle) == 0){
+	if (count($arrArticleToDisplay) == 0){
 	?>
 		<div class="alert alert-warning">
 			<p>Pas de résultats</p>
