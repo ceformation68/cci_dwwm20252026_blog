@@ -2,6 +2,7 @@
 	// ici plutôt que dans le header pour également les pages sans affichage
 	session_start(); 
 	
+	require("vendor/autoload.php"); // PArce que j'utilise composer
 	require("controllers/mother_controller.php");
 	
 	// Récupère les infos dans l'url
