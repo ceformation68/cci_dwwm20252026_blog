@@ -2,6 +2,8 @@
 	// ici plutôt que dans le header pour également les pages sans affichage
 	session_start(); 
 	
+	require("controllers/mother_controller.php");
+	
 	// Récupère les infos dans l'url
 	$strCtrl	= $_GET['ctrl']??'article'; // quel contrôleur ?
 	$strMethod	= $_GET['action']??'home'; // quel méthode ?

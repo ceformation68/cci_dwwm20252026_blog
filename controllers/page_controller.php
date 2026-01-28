@@ -1,42 +1,33 @@
 <?php
-
 	/** 
 	* Le contrôleur des pages
 	* @author Christel
 	*/
-	class PageCtrl{
+	class PageCtrl extends MotherCtrl{
 		
 		/**
 		* Page A propos
 		*/
 		public function about(){
-			// Variables d'affichage
-			$strH2	= "À propos";
-			$strP	= "Découvrez notre histoire, notre équipe et notre passion pour le développement web";
-			// Variables technique
-			$strPage	= "about";
-
-			// inclusion du header
-			include("views/_partial/header.php");
-			include("views/about.php");
-			include("views/_partial/footer.php");
+			// Rempli le tableau des variables pour donner à maman
+			$this->_arrData['strH2'] 	= "À propos";
+			$this->_arrData['strPage'] 	= "about";
+			$this->_arrData['strP'] 	= "Découvrez notre histoire, notre équipe et notre passion pour le développement web";
+			// Afficher
+			$this->_display("about");
 		}
-		
 		
 		/** 
 		* Page contact 
 		*/
 		public function contact(){
 			// Variables d'affichage
-			$strH2		= "Contact";
-			$strP		= "Contactez-nous pour toute question";
+			$this->_arrData['strH2']	= "Contact";
+			$this->_arrData['strP']		= "Contactez-nous pour toute question";
 			// Variables technique
-			$strPage	= "contact";
-			
-			// inclusion du header
-			include("views/_partial/header.php");
-			include("views/contact.php");
-			include("views/_partial/footer.php");
+			$this->_arrData['strPage']	= "contact";
+			// Afficher
+			$this->_display("contact");
 		}
 		
 		/** 
@@ -44,15 +35,12 @@
 		*/
 		public function mentions(){
 			// Variables d'affichage
-			$strH2		= "Mentions légales";
-			$strP		= "Informations légales et politique de confidentialité";
+			$this->_arrData['strH2']	= "Mentions légales";
+			$this->_arrData['strP']		= "Informations légales et politique de confidentialité";
 			// Variables technique
-			$strPage	= "mentions";			
-
-			// inclusion du header
-			include("views/_partial/header.php");
-			include("views/mentions.php");
-			include("views/_partial/footer.php");
+			$this->_arrData['strPage']	= "mentions";			
+			// Afficher
+			$this->_display("mentions");
 		}
 				
 		
