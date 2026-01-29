@@ -12,9 +12,6 @@
 		* Page de création d'un compte
 		*/
 		public function create_account(){
-			// Variables technique
-			$this->_arrData['strPage']	= "create_account";
-			
 			// Traitement du formulaire
 			//var_dump($_POST);
 			$strName 		= $_POST['name']??"";
@@ -77,9 +74,6 @@
 		* Page de connexion 
 		*/
 		public function login(){
-			// Variables technique
-			$this->_arrData['strPage']	= "login";
-			
 			// Traitement du formulaire
 			//var_dump($_POST);
 			$strMail 		= $_POST['mail']??"";

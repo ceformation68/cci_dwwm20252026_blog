@@ -1,5 +1,7 @@
 {extends file="views/layout.tpl"}
 
+{assign var='strPage' value='about'}
+
 {block name="title" append}À propos{/block}
 {block name="h2"}À propos{/block}
 {block name="p"}Découvrez notre histoire, notre équipe et notre passion pour le développement web{/block}

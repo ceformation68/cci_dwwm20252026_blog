@@ -12,9 +12,6 @@
 		* Page d'accueil 
 		*/
 		public function home(){
-			// Variables technique
-			$this->_arrData['strPage']	= "home";
-			
 			// Récupération des articles 
 			$objArticleModel 	= new ArticleModel;
 			$arrArticle 		= $objArticleModel->findAll(4);
@@ -36,9 +33,6 @@
 		}
 		
 		public function blog(){
-			// Variables technique
-			$this->_arrData['strPage']	= "blog";
-			
 			// Récupération des articles 
 			$objArticleModel 	= new ArticleModel;
 

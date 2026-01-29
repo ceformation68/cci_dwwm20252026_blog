@@ -1,5 +1,7 @@
 {extends file="views/layout.tpl"}
 
+{assign var='strPage' value='blog'}
+
 {block name="title" append}Blog{/block}
 {block name="h2"}Blog{/block}
 {block name="p"}Découvrez tous nos articles et utilisez la recherche pour trouver ce qui vous intéresse{/block}

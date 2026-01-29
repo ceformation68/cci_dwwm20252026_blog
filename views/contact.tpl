@@ -1,5 +1,7 @@
 {extends file="views/layout.tpl"}
 
+{assign var='strPage' value='contact'}
+
 {block name="title" append}Contact{/block}
 {block name="h2"}Contact{/block}
 {block name="p"}Contactez-nous pour toute question{/block}

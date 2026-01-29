@@ -1,5 +1,7 @@
 {extends file="views/layout.tpl"}
 
+{assign var='strPage' value='home'}
+
 {block name="title" append}Accueil{/block}
 {block name="h2"}Accueil{/block}
 {block name="p"}Découvrez nos derniers articles sur le développement web{/block}
