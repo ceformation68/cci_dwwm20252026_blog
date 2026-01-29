@@ -3,17 +3,17 @@
 		<div class="col p-4 d-flex flex-column position-static">
 			<h3 class="mb-2">{$objArticle->getTitle()}</h3>
 			<div class="mb-2 text-body-secondary">
-				<time datetime="2017-05-11"><?php echo $objArticle->getDateFormat(); ?></time>
-				<span> - <?php echo $objArticle->getCreatorname(); ?></span>
+				<time datetime="2017-05-11">{$objArticle->getDateFormat()}</time>
+				<span> - {$objArticle->getCreatorname()}</span>
 			</div>
-			<p class="mb-auto"><?php echo $objArticle->getSummary(); ?></p>
+			<p class="mb-auto">{$objArticle->getSummary()}</p>
 			<a href="article-javascript.html" class="icon-link gap-1 icon-link-hover stretched-link" aria-label="Lire l'article complet sur le devenir du JavaScript">
 				Lire la suite
 				<i class="fas fa-arrow-right" aria-hidden="true"></i>
 			</a>
 		</div>
 		<div class="col-auto d-none d-lg-block">
-			<img class="bd-placeholder-img" width="200" height="250" src="assets/images/<?php echo $objArticle->getImg(); ?>" alt="Logo JavaScript - Article sur l'évolution du JavaScript" loading="lazy">
+			<img class="bd-placeholder-img" width="200" height="250" src="assets/images/{$objArticle->getImg()}" alt="Logo JavaScript - Article sur l'évolution du JavaScript" loading="lazy">
 		</div>
 	</div>
 </article>

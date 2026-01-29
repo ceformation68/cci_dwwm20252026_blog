@@ -12,9 +12,6 @@
 		* Page d'accueil 
 		*/
 		public function home(){
-			// Variables d'affichage
-			//$this->_arrData['strH2']	= "Accueil";
-			$this->_arrData['strP']		= "Découvrez nos derniers articles sur le développement web";
 			// Variables technique
 			$this->_arrData['strPage']	= "home";
 			
@@ -39,9 +36,6 @@
 		}
 		
 		public function blog(){
-			// Variables d'affichage
-			$this->_arrData['strH2']	= "Blog";
-			$this->_arrData['strP']		= "Découvrez tous nos articles et utilisez la recherche pour trouver ce qui vous intéresse";
 			// Variables technique
 			$this->_arrData['strPage']	= "blog";
 			

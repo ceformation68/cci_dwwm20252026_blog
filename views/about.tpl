@@ -1,3 +1,11 @@
+{extends file="views/layout.tpl"}
+
+{block name="title" append}À propos{/block}
+{block name="h2"}À propos{/block}
+{block name="p"}Découvrez notre histoire, notre équipe et notre passion pour le développement web{/block}
+
+{block name="content"}
+
 <section aria-label="Qui sommes-nous ?">
 	<h2 class="visually-hidden">Qui sommes-nous ?</h2>
 	<div class="col-md-12">
@@ -129,3 +137,4 @@
 		</section>
 	</div>
 </section>
+{/block}

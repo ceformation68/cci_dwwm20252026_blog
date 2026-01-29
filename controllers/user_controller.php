@@ -12,9 +12,6 @@
 		* Page de création d'un compte
 		*/
 		public function create_account(){
-			// Variables d'affichage
-			$this->_arrData['strH2']	= "Créer un compte";
-			$this->_arrData['strP']		= "Inscrivez-vous";
 			// Variables technique
 			$this->_arrData['strPage']	= "create_account";
 			
@@ -80,9 +77,6 @@
 		* Page de connexion 
 		*/
 		public function login(){
-			// Variables d'affichage
-			$this->_arrData['strH2']	= "Me connecter";
-			$this->_arrData['strP']		= "Connexion au site";
 			// Variables technique
 			$this->_arrData['strPage']	= "login";
 			

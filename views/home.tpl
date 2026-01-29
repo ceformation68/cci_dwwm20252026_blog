@@ -2,6 +2,7 @@
 
 {block name="title" append}Accueil{/block}
 {block name="h2"}Accueil{/block}
+{block name="p"}Découvrez nos derniers articles sur le développement web{/block}
 
 {block name="content"}
 <section aria-label="Articles récents">

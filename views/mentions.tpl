@@ -1,3 +1,39 @@
+{extends file="views/layout.tpl"}
+
+{block name="title" append}Mentions légales{/block}
+{block name="h2"}Mentions légales{/block}
+{block name="p"}Informations légales et politique de confidentialité{/block}
+
+{block name="date_maj"}
+	<p class="text-muted small mb-0">
+		<i class="fas fa-calendar-alt me-2" aria-hidden="true"></i>
+		Dernière mise à jour : <time datetime="2025-01-15">15 janvier 2025</time>
+	</p>
+{/block}
+
+{block name="js_footer" append}
+	<!-- Smooth scroll pour les ancres -->
+    <script>
+	{literal}
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // Focus sur la section pour l'accessibilité
+                    target.focus();
+                }
+            });
+        });
+	{/literal}
+    </script>
+{/block}
+
+{block name="content"}
 		<section aria-label="Mentions légales">
             <h2 class="visually-hidden">Mentions légales</h2>
 			<div class="row g-5">
@@ -253,3 +289,4 @@
             </div>
         </div>
 		</section>
+{/block}

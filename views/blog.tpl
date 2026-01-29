@@ -1,3 +1,47 @@
+{extends file="views/layout.tpl"}
+
+{block name="title" append}Blog{/block}
+{block name="h2"}Blog{/block}
+{block name="p"}Découvrez tous nos articles et utilisez la recherche pour trouver ce qui vous intéresse{/block}
+
+{block name="og"}
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Blog - Tous les articles">
+    <meta property="og:description" content="Retrouvez tous nos articles sur le développement web">
+{/block}	
+
+{block name="js_footer" append}
+	<script>
+	{literal}
+        // Gestion de l'affichage des champs de date
+        const periodRadios = document.querySelectorAll('input[name="period"]');
+        const dateExact = document.getElementById('date-exact');
+        const dateRange = document.getElementById('date-range');
+        
+        function toggleDateFields() {
+            const selectedPeriod = document.querySelector('input[name="period"]:checked').value;
+            
+            if (selectedPeriod === '0') {
+                dateExact.style.display = 'block';
+                dateRange.style.display = 'none';
+            } else {
+                dateExact.style.display = 'none';
+                dateRange.style.display = 'block';
+            }
+        }
+        
+        periodRadios.forEach(radio => {
+            radio.addEventListener('change', toggleDateFields);
+        });
+        
+        // Initialisation au chargement
+        toggleDateFields();
+	{/literal}
+    </script>
+{/block}
+
+{block name="content"}
 <!-- Formulaire de recherche -->
 <section aria-label="Blog">
 	<h2 class="visually-hidden">Rechercher parmi les articles</h2>
@@ -13,7 +57,7 @@
 					<div class="col-md-6">
 						<label for="keywords" class="form-label">Mots-clés</label>
 						<input 
-							value="<?php echo $strKeywords; ?>"
+							value="{$strKeywords}"
 							type="text" 
 							class="form-control" 
 							id="keywords" 
@@ -28,19 +72,16 @@
 					<div class="col-md-6">
 						<label for="author" class="form-label">Auteur</label>
 						<select class="form-select" id="author" name="author">
-							<option value="0" <?php echo ($intAuthor == 0)?'selected':''; ?> >Tous les auteurs</option>
+							<option value="0" {if ($intAuthor == 0)} selected {/if} >Tous les auteurs</option>
 							<!-- Faire une boucle sur les users de la base de données -->
-							<?php
-							foreach($arrUser as $arrDetUser){
-							?>
-								<option value="<?php echo $arrDetUser['user_id']; ?>" 
-									<?php echo ($intAuthor == $arrDetUser['user_id'])?'selected':''; ?> 
+							{*foreach $arrUser as $arrDetUser*}
+							{foreach from=$arrUser item=arrDetUser}
+								<option value="{$arrDetUser['user_id']}" 
+									{if ($intAuthor == $arrDetUser['user_id'])} selected {/if} 
 								>
-									<?php echo $arrDetUser['user_firstname'].' '.$arrDetUser['user_name']; ?>
+									{$arrDetUser['user_firstname']|cat:' '|cat:$arrDetUser['user_name']}
 								</option>
-							<?php
-							}
-							?>
+							{/foreach}
 						</select>
 					</div>
 
@@ -55,7 +96,7 @@
 									name="period" 
 									id="period-exact" 
 									value="0" 
-									<?php echo ($intPeriod == 0)?'checked':'' ; ?>
+									{if ($intPeriod == 0)} checked {/if}
 									aria-controls="date-exact date-range">
 								<label class="form-check-label" for="period-exact">
 									Date exacte
@@ -68,7 +109,7 @@
 									name="period" 
 									id="period-range" 
 									value="1"
-									<?php echo ($intPeriod == 1)?'checked':'' ; ?>
+									{if ($intPeriod == 1)} checked {/if}
 									aria-controls="date-exact date-range">
 								<label class="form-check-label" for="period-range">
 									Période
@@ -85,7 +126,7 @@
 							id="date" 
 							name="date"
 							aria-describedby="date-help"
-							value="<?php echo $strDate; ?>" >
+							value="{$strDate}" >
 						<small id="date-help" class="form-text text-muted">
 							Format: JJ/MM/AAAA
 						</small>
@@ -100,7 +141,7 @@
 									class="form-control" 
 									id="startdate" 
 									name="startdate"
-									value="<?php echo $strStartDate; ?>" >
+									value="{$strStartDate}" >
 							</div>
 							<div class="col-md-6">
 								<label for="enddate" class="form-label">Date de fin</label>
@@ -109,7 +150,7 @@
 									class="form-control" 
 									id="enddate" 
 									name="enddate"
-									value="<?php echo $strEndDate; ?>" >
+									value="{$strEndDate}" >
 							</div>
 						</div>
 					</div>
@@ -130,20 +171,18 @@
 
 		<!-- Liste des articles -->
 		<section aria-labelledby="articles-heading">
-	<h3 id="articles-heading" class="visually-hidden">Liste des articles</h3>
-	<div class="row mb-2">
-	<?php
-	if (count($arrArticleToDisplay) == 0){
-	?>
-		<div class="alert alert-warning">
-			<p>Pas de résultats</p>
-		</div>
-	<?php
-	}
-	foreach($arrArticleToDisplay as $objArticle){
-		include("_partial/article.php");
-	} ?>                
+			<h3 id="articles-heading" class="visually-hidden">Liste des articles</h3>
+			<div class="row mb-2">
+			{foreach $arrArticleToDisplay as $objArticle}
+				{include file="views/_partial/article.tpl"}
+			{foreachelse}
+				<div class="alert alert-warning">
+					<p>Pas de résultats</p>
+				</div>
+			{/foreach}
+			</div>
+		</section>
 	</div>
 </section>
-	</div>
-</section>
+
+{/block}

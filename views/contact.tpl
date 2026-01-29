@@ -1,3 +1,11 @@
+{extends file="views/layout.tpl"}
+
+{block name="title" append}Contact{/block}
+{block name="h2"}Contact{/block}
+{block name="p"}Contactez-nous pour toute question{/block}
+
+{block name="content"}
+
 		<section aria-label="Contactez-nous">
             <h2 class="visually-hidden">Contactez-nous</h2>
 			<div class="row g-5">
@@ -220,3 +228,5 @@
             </section>
         </div>
 		</section>
+
+{/block}
