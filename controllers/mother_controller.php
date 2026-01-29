@@ -12,7 +12,8 @@
 		protected function _display($strView){
 			// Création de l'objet Smarty
 			$objSmarty	= new Smarty();
-			$objSmarty->registerPlugin('modifier', 'var_dump', 'var_dump');
+			// Ajouter le var_dump au modificateur de smarty : vardump est le nom appelé après le |
+			$objSmarty->registerPlugin('modifier', 'vardump', 'var_dump');
 
 			// Récupérer les variables
 			foreach($this->_arrData as $key=>$value){

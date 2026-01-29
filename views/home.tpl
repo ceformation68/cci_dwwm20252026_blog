@@ -11,6 +11,7 @@
 	<h2 class="visually-hidden">Les 4 derniers articles</h2>
 	<div class="row mb-2">
 	{* Tableau d'affichage *}
+	{*$arrArticleToDisplay|vardump*}
 	{foreach from=$arrArticleToDisplay item=objArticle}
 		{include file="views/_partial/article.tpl"}
 	{/foreach} 
