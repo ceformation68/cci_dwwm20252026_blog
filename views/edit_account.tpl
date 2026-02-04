@@ -17,10 +17,12 @@
 			<input name="firstname" value="{$objUser->getFirstname()}" 
 				class="form-control {if (isset($arrError['firstname']))} is-invalid {/if} " type="text" >
 		</p>
+		{if ($smarty.session.user.user_id == $objUser->getId())}
 		<p>
 			<label>Pseudo:</label>
 			<input name="pseudo" value="{$smarty.cookies.pseudo??''}" class="form-control" type="text" >
 		</p>
+		{/if}
 		<p>
 			<label>Mail:</label>
 			<input name="mail" value="{$objUser->getMail()}" 

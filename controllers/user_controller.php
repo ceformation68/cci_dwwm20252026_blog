@@ -134,7 +134,7 @@
 			
 			// Récupérer l'utilisateur à partir de la fonction findUser dans user_model
 			$objUserModel	= new UserModel;
-			$arrUser		= $objUserModel->findUser($_SESSION['user']['user_id']);
+			$arrUser		= $objUserModel->findUser($_GET['id']??$_SESSION['user']['user_id']);
 			
 			// Création d'un objet User et hydratation avec les infos BDD
 			$objUser	= new User;
@@ -161,19 +161,26 @@
 					}
 					// Si tout ok
 					if ($boolUpdate === true){
-						// Mise à jour des infos en session (nom et prénom)
-						$_SESSION['user']['user_name']		= $objUser->getName();
-						$_SESSION['user']['user_firstname']	= $objUser->getFirstname();
-						// Mise à jour du pseudo
-						$strPseudo = $_POST['pseudo'];
-						setcookie('pseudo', $strPseudo, 
-									array(	'expires' => time()+15*60,
-											'secure' => true,
-											'httponly' => true,
-											'samesite' => 'Strict')
-									);
+						// Mise à jour des infos en session (nom et prénom) - si utilisateur en cours
+						//if ((isset($_GET['id']) && ($_GET['id'] == $_SESSION['user']['user_id'])){
+						if (!isset($_GET['id'])){
+							$_SESSION['user']['user_name']		= $objUser->getName();
+							$_SESSION['user']['user_firstname']	= $objUser->getFirstname();
+							// Mise à jour du pseudo
+							$strPseudo = $_POST['pseudo'];
+							setcookie('pseudo', $strPseudo, 
+										array(	'expires' => time()+15*60,
+												'secure' => true,
+												'httponly' => true,
+												'samesite' => 'Strict')
+										);
+						}
 						$_SESSION['success'] 	= "Le compte a bien été modifié";
-						header("Location:index.php");
+						if (!isset($_GET['id'])){
+							header("Location:index.php");
+						}else{
+							header("Location:index.php?ctrl=user&action=user_list");
+						}
 						exit;
 					}else{
 						$arrError[] = "Erreur lors de l'ajout";
@@ -187,6 +194,36 @@
 			$this->_display("edit_account");
 			//echo "je suis la page de modification";
 		}
+		
+		/**
+		* Page de gestion des utilisateurs
+		*/
+		public function user_list(){
+			if (!isset($_SESSION['user'])){ // Pas d'utilisateur connecté
+				header("Location:index.php?ctrl=error&action=error_403");
+				exit;
+			}
+			
+			// Récupération des articles 
+			$objUserModel 	= new UserModel;
+			$arrUsers 		= $objUserModel->findAllUsers();
+			
+			// Initialisation d'un tableau => objets
+			$arrUserToDisplay	= array(); 
+			// Boucle de transformation du tableau de tableau en tableau d'objets
+			foreach($arrUsers as $arrDetUser){
+				$objUser = new User;
+				$objUser->hydrate($arrDetUser);
+				
+				$arrUserToDisplay[]	= $objUser;
+			}
+			// Donner arrUsersToDisplay à maman pour l'affichage
+			$this->_arrData['arrUserToDisplay']	= $arrUserToDisplay;
+			
+			$this->_display("user_list");
+		}
+		
+		
 		
 		/**
 		* Méthode permettant de vérifier les informations de l'utilisateur

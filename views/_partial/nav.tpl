@@ -12,5 +12,10 @@
 		<li class="nav-item">
 			<a class="nav-link link-body-emphasis {if ($strPage == 'contact')} active {/if}" href="index.php?ctrl=page&action=contact">Contact</a>
 		</li>
+		{if (isset($smarty.session.user)) }
+		<li class="nav-item">
+			<a class="nav-link link-body-emphasis {if ($strPage == 'user_list')} active {/if}" href="index.php?ctrl=user&action=user_list">Liste des utilisateurs</a>
+		</li>
+		{/if}
 	</ul>
 </nav>
