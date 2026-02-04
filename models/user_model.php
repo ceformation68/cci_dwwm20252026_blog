@@ -16,6 +16,7 @@
 		}
 
         /**
+		 * Fonction qui permet de récupérer tous les utilisateurs
          * @return array
          */
 		public function findAllUsers():array{
@@ -27,6 +28,7 @@
 		}
 
         /**
+		 * Fonciton qui vérifie l'utilisateur en BDD pour login
          * @param string $strMail
          * @param string $strPwd
          * @return array|bool
@@ -78,4 +80,65 @@
 			//return $db->exec($strRq);
 			return $rqPrep->execute();
 		}
+		
+		
+        /**
+		 * Fonction qui permet de récupérer un utilisateur en fonction de son identifiant
+		 * @param int intId L'identifiant de l'utilisateur à chercher
+         * @return array
+         */
+		public function findUser(int $intId):array{
+			// Ecrire la requête
+			$strRq	= "SELECT user_id, user_firstname, user_name, user_mail
+						FROM users 
+						WHERE user_id = ".$intId;
+			// Lancer la requête et récupérer les résultats
+			return $this->_db->query($strRq)->fetch();
+		}
+
+
+		/**
+		* Fonction de mise à jour d'un utilisateur en BDD
+		* @param object $objUser L'objet utilisateur
+		* @return bool Est-ce que la requête s'est bien passée (true/false)
+		*/
+		public function update(object $objUser):bool{
+			// Construire la requête
+			$strRq 	= "UPDATE users 
+						SET user_name = :name, 
+							user_firstname = :firstname, 
+							user_mail = :mail
+						WHERE user_id = :id";
+			// Préparer la requête
+			$rqPrep	= $this->_db->prepare($strRq);
+			// Donne les informations
+			$rqPrep->bindValue(":name", $objUser->getName(), PDO::PARAM_STR);
+			$rqPrep->bindValue(":firstname", $objUser->getFirstname(), PDO::PARAM_STR);
+			$rqPrep->bindValue(":mail", $objUser->getMail(), PDO::PARAM_STR);
+			$rqPrep->bindValue(":id", $objUser->getId(), PDO::PARAM_INT);
+
+			// Executer la requête
+			return $rqPrep->execute();
+		}
+		
+		/**
+		* Fonction de mise à jour du mot de passe d'un utilisateur en BDD
+		* @param object $objUser L'objet utilisateur
+		* @return bool Est-ce que la requête s'est bien passée (true/false)
+		*/
+		public function updatePwd(object $objUser):bool{
+			// Construire la requête
+			$strRq 	= "UPDATE users 
+						SET user_pwd = :pwd
+						WHERE user_id = :id";
+			// Préparer la requête
+			$rqPrep	= $this->_db->prepare($strRq);
+			// Donne les informations
+			$rqPrep->bindValue(":pwd", $objUser->getPwdHash(), PDO::PARAM_STR);
+			$rqPrep->bindValue(":id", $objUser->getId(), PDO::PARAM_INT);
+
+			// Executer la requête
+			return $rqPrep->execute();
+		}
+		
 	}

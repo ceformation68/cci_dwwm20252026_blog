@@ -26,26 +26,9 @@
 			// Tester le formulaire
 			$arrError = [];
 			if (count($_POST) > 0) {
-				if ($objUser->getName() == ""){
-					$arrError['name'] = "Le nom est obligatoire";
-				}	
-				if ($objUser->getFirstname() == ""){
-					$arrError['firstname'] = "Le prénom est obligatoire";
-				}	
-				if ($objUser->getMail() == ""){
-					$arrError['mail'] = "Le mail est obligatoire";
-				}else if (!filter_var($objUser->getMail(), FILTER_VALIDATE_EMAIL)){
-					$arrError['mail'] = "Le format du mail n'est pas correct";
-				}
-				$strRegex = "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{16,}$/";
-				if ($objUser->getPwd() == ""){
-					$arrError['pwd'] = "Le mot de passe est obligatoire";
-				}else if (!preg_match($strRegex, $objUser->getPwd())){
-					$arrError['pwd'] = "Le mot de passe ne correspond pas aux règles";
-				}else if($objUser->getPwd() != $strPwdConfirm){
-					$arrError['pwd_confirm'] = "Le mot de passe et sa confirmation ne sont pas identiques";
-				}
-				// Ajouter la vérification du mot de passe par regex
+				// Fonction commune de vérification des infos utilisateur + mdp
+				$arrError	= array_merge($this->_verifInfos($objUser), 
+										  $this->_verifPwd($objUser, $strPwdConfirm));
 				
 				// Si le formulaire est rempli correctement
 				if (count($arrError) == 0){
@@ -149,6 +132,91 @@
 				exit;
 			}
 			
-			echo "je suis la page de modification";
+			// Récupérer l'utilisateur à partir de la fonction findUser dans user_model
+			$objUserModel	= new UserModel;
+			$arrUser		= $objUserModel->findUser($_SESSION['user']['user_id']);
+			
+			// Création d'un objet User et hydratation avec les infos BDD
+			$objUser	= new User;
+			$objUser->hydrate($arrUser);
+			
+			$arrError = [];
+			if (count($_POST) > 0) {
+				$objUser->hydrate($_POST); // Mise à jour en fonction du formulaire
+				// Fonction commune de vérification des infos utilisateur
+				$arrError	= $this->_verifInfos($objUser);
+				// Traitement du mot de passe, si renseigné
+				if ($objUser->getPwd() != ""){
+					$strPwdConfirm	= $_POST['pwd_confirm'];
+					$arrError		= array_merge($arrError, $this->_verifPwd($objUser, $strPwdConfirm));
+				}
+
+				// Si le formulaire est rempli correctement
+				if (count($arrError) == 0){
+					// Mise à jour des infos de l'utilisateur
+					$boolUpdate 	= $objUserModel->update($objUser);
+					// Si mise à jour ok et pwd => Mise à jour du mot de passe
+					if ($boolUpdate === true && $objUser->getPwd() != ""){
+						$boolUpdate 	= $objUserModel->updatePwd($objUser);
+					}
+					// Si tout ok
+					if ($boolUpdate === true){
+						// Mise à jour des infos en session (nom et prénom)
+						$_SESSION['user']['user_name']		= $objUser->getName();
+						$_SESSION['user']['user_firstname']	= $objUser->getFirstname();
+						$_SESSION['success'] 	= "Le compte a bien été modifié";
+						header("Location:index.php");
+						exit;
+					}else{
+						$arrError[] = "Erreur lors de l'ajout";
+					}
+				}
+			}
+			
+			// Afficher
+			$this->_arrData['arrError'] = $arrError;
+			$this->_arrData['objUser'] 	= $objUser;
+			$this->_display("edit_account");
+			//echo "je suis la page de modification";
+		}
+		
+		/**
+		* Méthode permettant de vérifier les informations de l'utilisateur
+		* @param object $objUser L'utilisateur à vérifier
+		* @return array Le tableau des erreurs
+		*/
+		private function _verifInfos(object $objUser):array{
+			if ($objUser->getName() == ""){
+				$arrError['name'] = "Le nom est obligatoire";
+			}	
+			if ($objUser->getFirstname() == ""){
+				$arrError['firstname'] = "Le prénom est obligatoire";
+			}	
+			if ($objUser->getMail() == ""){
+				$arrError['mail'] = "Le mail est obligatoire";
+			}else if (!filter_var($objUser->getMail(), FILTER_VALIDATE_EMAIL)){
+				$arrError['mail'] = "Le format du mail n'est pas correct";
+			}
+			
+			return $arrError??array();			
+		}
+		
+		/**
+		* Méthode permettant de vérifier le mot de passe de l'utilisateur
+		* @param object $objUser L'utilisateur à vérifier
+		* @param string $strPwdConfirm Confirmation du mot de passe
+		* @return array Le tableau des erreurs
+		*/
+		private function _verifPwd(object $objUser, string $strPwdConfirm):array{
+			$strRegex = "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{16,}$/";
+			if ($objUser->getPwd() == ""){
+				$arrError['pwd'] = "Le mot de passe est obligatoire";
+			}else if (!preg_match($strRegex, $objUser->getPwd())){
+				$arrError['pwd'] = "Le mot de passe ne correspond pas aux règles";
+			}else if($objUser->getPwd() != $strPwdConfirm){
+				$arrError['pwd_confirm'] = "Le mot de passe et sa confirmation ne sont pas identiques";
+			}
+			
+			return $arrError??array();			
 		}
 	}
