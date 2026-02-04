@@ -18,6 +18,10 @@
 				class="form-control {if (isset($arrError['firstname']))} is-invalid {/if} " type="text" >
 		</p>
 		<p>
+			<label>Pseudo:</label>
+			<input name="pseudo" value="{$smarty.cookies.pseudo??''}" class="form-control" type="text" >
+		</p>
+		<p>
 			<label>Mail:</label>
 			<input name="mail" value="{$objUser->getMail()}" 
 				class="form-control {if (isset($arrError['mail'])) } is-invalid {/if} " type="text" >

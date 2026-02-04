@@ -164,6 +164,14 @@
 						// Mise à jour des infos en session (nom et prénom)
 						$_SESSION['user']['user_name']		= $objUser->getName();
 						$_SESSION['user']['user_firstname']	= $objUser->getFirstname();
+						// Mise à jour du pseudo
+						$strPseudo = $_POST['pseudo'];
+						setcookie('pseudo', $strPseudo, 
+									array(	'expires' => time()+15*60,
+											'secure' => true,
+											'httponly' => true,
+											'samesite' => 'Strict')
+									);
 						$_SESSION['success'] 	= "Le compte a bien été modifié";
 						header("Location:index.php");
 						exit;
