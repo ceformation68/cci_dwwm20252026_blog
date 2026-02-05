@@ -79,4 +79,31 @@
 			// Lancer la requête et récupérer les résultats
 			return $this->_db->query($strRq)->fetchAll();
 		}
+		
+		/**
+		* Fonction d'insertion d'un article en BDD
+		* @param object $objArticle L'objet article
+		* @return bool Est-ce que la requête s'est bien passée (true/false)
+		*/
+		public function insert(object $objArticle):bool{
+
+			// Construire la requête
+			$strRq 	= "INSERT INTO articles (article_title, article_content, 
+											article_createdate, article_creator,
+											article_img)
+						VALUES (:title, :content, NOW(), :creator, :img)";
+
+			// Préparer la requête
+			$rqPrep	= $this->_db->prepare($strRq);
+
+			// Donne les informations
+			$rqPrep->bindValue(":title", $objArticle->getTitle(), PDO::PARAM_STR);
+			$rqPrep->bindValue(":content", $objArticle->getContent(), PDO::PARAM_STR);
+			$rqPrep->bindValue(":creator", $_SESSION['user']['user_id'], PDO::PARAM_INT);
+			$rqPrep->bindValue(":img", $objArticle->getImg(), PDO::PARAM_STR);
+
+			// Executer la requête
+			return $rqPrep->execute();
+		}
+		
 	}

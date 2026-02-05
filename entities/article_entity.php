@@ -7,9 +7,9 @@
 	*/
 	class Article extends Entity{
 		// Attributs 
-		private string $_title;
+		private string $_title = '';
 		private string $_img;
-		private string $_content;
+		private string $_content = '';
 		private string $_createdate;
 		private int $_creator;
 		private string $_creatorname;
@@ -59,7 +59,7 @@
 		* @return string le contenu de l'objet
 		*/
 		public function getContent():string{
-			return $this->_name;
+			return $this->_content;
 		}
 		/**
 		* Mise à jour du contenu

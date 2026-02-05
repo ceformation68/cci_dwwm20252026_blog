@@ -9,6 +9,7 @@
 {block name="content"}
 <section aria-label="Articles récents">
 	<h2 class="visually-hidden">Les 4 derniers articles</h2>
+	<a class="btn btn-success" href="index.php?ctrl=article&action=addedit">Ajouter un article</a>
 	<div class="row mb-2">
 	{* Tableau d'affichage *}
 	{*$arrArticleToDisplay|vardump*}

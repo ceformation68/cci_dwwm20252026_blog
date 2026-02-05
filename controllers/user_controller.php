@@ -14,10 +14,6 @@
 		public function create_account(){
 			// Traitement du formulaire
 			//var_dump($_POST);
-			$strName 		= $_POST['name']??"";
-			$strFirstname 	= $_POST['firstname']??"";
-			$strMail 		= $_POST['mail']??"";
-			$strPwd 		= $_POST['pwd']??"";
 			$strPwdConfirm	= $_POST['pwd_confirm']??"";
 			
 			$objUser	= new User;
