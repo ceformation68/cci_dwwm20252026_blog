@@ -224,7 +224,38 @@
 		}
 		
 		
-		
+		/**
+		* 'Page' de suppression
+		*/
+		public function delete(){
+			if (!isset($_SESSION['user'])){ // Pas d'utilisateur connecté
+				header("Location:index.php?ctrl=error&action=error_403");
+				exit;
+			}
+
+			// Ne pas se supprimer soi-même
+			if ($_GET['id'] == $_SESSION['user']['user_id']){
+				$_SESSION['error'] 	= "Vous ne pouvez pas vous supprimer vous-même";
+				header("Location:index.php?ctrl=user&action=user_list");
+				exit;
+			}
+
+			// Possibilité de vérifier l'existance de l'utilisateur
+			
+			// Appeler la méthode de supression dans le modèle
+			$objUserModel	= new UserModel;
+			$boolDelete		= $objUserModel->delete_soft($_GET['id']);
+			
+			if ($boolDelete){
+				$_SESSION['success'] 	= "Le compte a bien été supprimé";
+			}else{
+				$_SESSION['error'] 		= "Erreur lors de la suppression";
+			}
+			
+			header("Location:index.php?ctrl=user&action=user_list");
+			exit;
+			
+		}
 		/**
 		* Méthode permettant de vérifier les informations de l'utilisateur
 		* @param object $objUser L'utilisateur à vérifier
