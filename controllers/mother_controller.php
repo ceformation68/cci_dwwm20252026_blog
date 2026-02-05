@@ -24,9 +24,10 @@
 			$objSmarty->assign("success_message", $_SESSION['success']??'');
 			unset($_SESSION['success']);
 			// Message d'erreur en session
-			$objSmarty->assign("arrError", isset($_SESSION['error'])?array($_SESSION['error']):array());
-			unset($_SESSION['error']);
-			
+			if (isset($_SESSION['error'])){
+				$objSmarty->assign("arrError", array($_SESSION['error']));
+				unset($_SESSION['error']);
+			}
 			
 			$objSmarty->display("views/".$strView.".tpl");
 			
