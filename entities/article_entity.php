@@ -7,12 +7,12 @@
 	*/
 	class Article extends Entity{
 		// Attributs 
-		private string $_title = '';
-		private string $_img;
+		private string $_title = ''; /**< @var string Titre de l'article */
+		private ?string $_img = null;
 		private string $_content = '';
 		private string $_createdate;
 		private int $_creator;
-		private string $_creatorname;
+		private string $_creatorname; 
 		
 		/**
 		* Constructeur
@@ -33,7 +33,7 @@
 		}
 		/**
 		* Mise à jour du titre
-		* @param string le nouveau titre
+		* @param $strTitle le nouveau titre
 		*/
 		public function setTitle(string $strTitle){
 			$this->_title = $this->nettoyer($strTitle);
@@ -43,7 +43,7 @@
 		* Récupération de l'image
 		* @return string l'image de l'objet
 		*/
-		public function getImg():string{
+		public function getImg():?string{
 			return $this->_img;
 		}
 		/**

@@ -1,7 +1,7 @@
 <?php
 	class Entity {
 
-		protected int $_id;
+		protected ?int $_id = null;
 		protected string $_prefixe = '';
 
 		/**
@@ -29,7 +29,7 @@
 		* Récupération de l'identifiant
 		* @return int l'identifiant de l'objet
 		*/
-		public function getId():int{
+		public function getId():?int{
 			return $this->_id;
 		}
 		/**

@@ -7,9 +7,13 @@
 				<span> - {$objArticle->getCreatorname()}</span>
 			</div>
 			<p class="mb-auto">{$objArticle->getSummary()}</p>
-			<a href="article-javascript.html" class="icon-link gap-1 icon-link-hover stretched-link" aria-label="Lire l'article complet sur le devenir du JavaScript">
+			<a href="article-javascript.html" class="icon-link gap-1 icon-link-hover" aria-label="Lire l'article complet sur le devenir du JavaScript">
 				Lire la suite
 				<i class="fas fa-arrow-right" aria-hidden="true"></i>
+			</a>
+			<a href="index.php?ctrl=article&action=addedit&id={$objArticle->getId()}" class="icon-link gap-1 icon-link-hover">
+				Modifier l'article
+				<i class="fas fa-edit" aria-hidden="true"></i>
 			</a>
 		</div>
 		<div class="col-auto d-none d-lg-block">

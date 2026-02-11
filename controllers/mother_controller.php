@@ -14,6 +14,7 @@
 			$objSmarty	= new Smarty();
 			// Ajouter le var_dump au modificateur de smarty : vardump est le nom appelé après le |
 			$objSmarty->registerPlugin('modifier', 'vardump', 'var_dump');
+			$objSmarty->registerPlugin('modifier', 'is_null', 'is_null');
 
 			// Récupérer les variables
 			foreach($this->_arrData as $key=>$value){

@@ -88,9 +88,17 @@
 				exit;
 			}
 			
-			$objArticle	= new Article;
-			$objArticle->hydrate($_POST);
+			$objArticle			= new Article;
+			$objArticleModel	= new ArticleModel;
 			
+			// dans la cas de modif
+			if (isset($_GET['id'])){
+				$arrArticle	= $objArticleModel->find($_GET['id']);
+				$objArticle->hydrate($arrArticle); // BDD
+			}
+			
+			$objArticle->hydrate($_POST); // Formulaire
+
 			// Tester le formulaire
 			$arrError = [];
 			if (count($_POST) > 0) {
@@ -100,90 +108,135 @@
 				if ($objArticle->getContent() == ""){
 					$arrError['content'] = "Le contenu est obligatoire";
 				}	
+				// Vérification de l'image
 				$arrTypeAllowed	= array('image/jpeg', 'image/png', 'image/webp');
-				if ($_FILES['img']['error'] == 4){ // Est-ce que le fichier existe ?
-					$arrError['img'] = "L'image est obligatoire";
-				}else if (!in_array($_FILES['img']['type'], $arrTypeAllowed)){
-					$arrError['img'] = "Le type de fichier n'est pas autorisé";
+				if ($_FILES['img']['error'] != 4){ 
+					if (!in_array($_FILES['img']['type'], $arrTypeAllowed)){
+						$arrError['img'] = "Le type de fichier n'est pas autorisé";
+					}else{
+						// Vérification des codes d'erreur
+						switch ($_FILES['img']['error']){
+							case 0 : 
+								// Renommage de l'image 
+								$strImageName	= uniqid().".webp";
+								
+								/* uniquement si on veut garder l'extension du fichier originel */
+								/*switch ($_FILES['img']['type']){
+									case 'image/jpeg' :
+										$strImageName .= '.jpg';
+										break;
+									case 'image/png' :
+										$strImageName .= '.png';
+										break;
+								}*/
+								
+								// Récupère le nom de l'image avant changement
+								$strOldImg	= $objArticle->getImg();
+								// Mise à jour du nom de l'image dans l'objet
+								$objArticle->setImg($strImageName);
+								break;
+							case 1 :
+								$arrError['img'] = "Le fichier est trop volumineux";
+								break;
+							case 2 :
+								$arrError['img'] = "Le fichier est trop volumineux";
+								break;
+							case 3 :
+								$arrError['img'] = "Le fichier a été partiellement téléchargé";
+								break;
+							case 6 :
+								$arrError['img'] = "Le répertoire temporaire est manquant";
+								break;
+							default :
+								$arrError['img'] = "Erreur sur l'image";
+								break;
+						}
+					}
+						
+				}else{
+					// Est-ce que le fichier existe ?
+					if (is_null($objArticle->getImg())){ 
+						$arrError['img'] = "L'image est obligatoire";
+					}
 				}
 				// Si le formulaire est rempli correctement
 				if (count($arrError) == 0){
-					// Renommage de l'image 
-					$strImageName	= uniqid().".webp";
-					
-					/* uniquement si on veut garder l'extension du fichier originel */
-					/*switch ($_FILES['img']['type']){
-						case 'image/jpeg' :
-							$strImageName .= '.jpg';
-							break;
-						case 'image/png' :
-							$strImageName .= '.png';
-							break;
-					}*/
-					
-					// => Ajout dans la base de données 
-					$objArticleModel	= new ArticleModel;
-					// Mise à jour du nom de l'image dans l'objet
-					$objArticle->setImg($strImageName);
+					if (is_null($objArticle->getId())){
+						// => Ajout dans la base de données 
+						$boolOk = $objArticleModel->insert($objArticle);
+					}else{
+						$boolOk = $objArticleModel->update($objArticle);
+					}
+					if ($boolOk === true){
+						if (isset($strImageName)){
+							// Création du chemin de destination
+							$strDest    = 'assets/images/'.$strImageName;
+							// Récupération de la source de l'image
+							$strSource	= $_FILES['img']['tmp_name'];
+							// Récupération des dimensions de l'image source
+							list($intWidth, $intHeight) = getimagesize($strSource);
+							// Dimensions de destination
+							$intDestWidth 	= 200;
+							$intDestHeight 	= 250;
+							
+							// Calcul du ratio de destination
+							$fltDestRatio 	= $intDestWidth / $intDestHeight;
+							// Calcul du ratio de la source
+							$fltSourceRatio = $intWidth / $intHeight;
+							
+							// Détermination de la zone à cropper
+							if ($fltSourceRatio > $fltDestRatio) {
+								// L'image source est plus large → on crop en largeur
+								$intCropHeight 	= $intHeight;
+								$intCropWidth 	= round($intHeight * $fltDestRatio);
+								$intCropX 		= ($intWidth - $intCropWidth) / 2; // Centrage horizontal
+								$intCropY 		= 0;
+							} else {
+								// L'image source est plus haute → on crop en hauteur
+								$intCropWidth 	= $intWidth;
+								$intCropHeight 	= round($intWidth / $fltDestRatio);
+								$intCropX 		= 0;
+								$intCropY 		= ($intHeight - $intCropHeight) / 2; // Centrage vertical
+							}
 
-					$boolInsert 		= $objArticleModel->insert($objArticle);
-					if ($boolInsert === true){
-						// Création du chemin de destination
-						$strDest    = 'assets/images/'.$strImageName;
-						// Récupération de la source de l'image
-                        $strSource	= $_FILES['img']['tmp_name'];
-                        // Récupération des dimensions de l'image source
-                        list($intWidth, $intHeight) = getimagesize($strSource);
-						// Dimensions de destination
-						$intDestWidth 	= 200;
-						$intDestHeight 	= 250;
-						
-						// Calcul du ratio de destination
-						$fltDestRatio 	= $intDestWidth / $intDestHeight;
-						// Calcul du ratio de la source
-						$fltSourceRatio = $intWidth / $intHeight;
-						
-						// Détermination de la zone à cropper
-						if ($fltSourceRatio > $fltDestRatio) {
-							// L'image source est plus large → on crop en largeur
-							$intCropHeight 	= $intHeight;
-							$intCropWidth 	= round($intHeight * $fltDestRatio);
-							$intCropX 		= ($intWidth - $intCropWidth) / 2; // Centrage horizontal
-							$intCropY 		= 0;
-						} else {
-							// L'image source est plus haute → on crop en hauteur
-							$intCropWidth 	= $intWidth;
-							$intCropHeight 	= round($intWidth / $fltDestRatio);
-							$intCropX 		= 0;
-							$intCropY 		= ($intHeight - $intCropHeight) / 2; // Centrage vertical
+							// Création d'une image 'vide'
+							$objDest		= imagecreatetruecolor($intDestWidth, $intDestHeight); 
+							
+							// Création d'un objet image à partir de la source (attention au type de fichier)
+							switch ($_FILES['img']['type']){
+								case 'image/jpeg' :
+									$objSource		= imagecreatefromjpeg($strSource);
+									break;
+								case 'image/png' :
+									$objSource		= imagecreatefrompng($strSource);
+									break;
+								case 'image/webp' :
+									$objSource		= imagecreatefromwebp($strSource);
+									break;
+							}
+							
+							// Mise à jour de l'image 'vide' avec les informations de dimension
+							//imagecopyresized($objDest, $objSource, 0, 0, 0, 0, 200, 250, $intWidth, $intHeight);
+							imagecopyresampled($objDest, $objSource, 
+												0, 0, $intCropX, $intCropY, 
+												$intDestWidth, $intDestHeight, $intCropWidth, $intCropHeight);
+							
+							// Si la copie de l'image a bien été effectuée à la destination voulue
+							$boolOk = imagewebp($objDest, $strDest);
 						}
-
-                        // Création d'une image 'vide'
-                        $objDest		= imagecreatetruecolor($intDestWidth, $intDestHeight); 
-						
-						// Création d'un objet image à partir de la source (attention au type de fichier)
-						switch ($_FILES['img']['type']){
-							case 'image/jpeg' :
-								$objSource		= imagecreatefromjpeg($strSource);
-								break;
-							case 'image/png' :
-								$objSource		= imagecreatefrompng($strSource);
-								break;
-							case 'image/webp' :
-								$objSource		= imagecreatefromwebp($strSource);
-								break;
-						}
-						
-						// Mise à jour de l'image 'vide' avec les informations de dimension
-                        //imagecopyresized($objDest, $objSource, 0, 0, 0, 0, 200, 250, $intWidth, $intHeight);
-						imagecopyresampled($objDest, $objSource, 
-											0, 0, $intCropX, $intCropY, 
-											$intDestWidth, $intDestHeight, $intCropWidth, $intCropHeight);
-						
-						// Si la copie de l'image a bien été effectuée à la destination voulue
-                        if(imagewebp($objDest, $strDest)){
+						if ($boolOk === true){
 						//if (move_uploaded_file($_FILES['img']['tmp_name'], $strDest)){
-							$_SESSION['success'] 	= "L'article a bien été créé";
+							// suppression de l'ancienne image
+							$strOldFile	= "assets/images/".$strOldImg;
+							if (file_exists($strOldFile)){
+								unlink($strOldFile);
+							}
+							
+							if (is_null($objArticle->getId())){
+								$_SESSION['success'] 	= "L'article a bien été créé";
+							}else{
+								$_SESSION['success'] 	= "L'article a bien été modifié";
+							}
 							header("Location:index.php");
 							exit;
 						}else{
@@ -194,7 +247,7 @@
 					}
 				}
 			}				
-			var_dump($arrError);
+
 			// Afficher
 			$this->_arrData['arrError'] = $arrError;
 			$this->_arrData['objArticle'] 	= $objArticle;

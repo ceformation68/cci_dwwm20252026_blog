@@ -2,12 +2,12 @@
 	require_once("mother_model.php");
 	/**
 	* Traitement des requêtes pour les articles
-	* @author : Christel
-	* @version : V0.5
+	* @author Christel
+	* @version V0.5
 	*/
 	class ArticleModel extends Connect{
 		
-		public string 	$strKeywords	= '';
+		public string 	$strKeywords	= ''; /**< Mots clés */
 		public int 		$intAuthor		= 0;
 		public int 		$intPeriod		= 0; 
 		public string 	$strDate		= ''; 
@@ -80,6 +80,23 @@
 			return $this->_db->query($strRq)->fetchAll();
 		}
 		
+		
+		/**
+		* Fonction de recherche d'un article en fonction de son id
+		* @param int $intId identifiant de l'article à rechercher
+		* @return array Tableau d'un article
+		*/
+		public function find(int $intId):array{
+			// Ecrire la requête
+			$strRq	= "SELECT article_id, article_title, article_content, article_img, 
+							article_creator, article_createdate
+						FROM articles
+						WHERE article_id = ".$intId;
+			
+			// Lancer la requête et récupérer le résultat 
+			return $this->_db->query($strRq)->fetch(); // fecth car recherche sur clé primaire = unique
+		}
+		
 		/**
 		* Fonction d'insertion d'un article en BDD
 		* @param object $objArticle L'objet article
@@ -106,4 +123,32 @@
 			return $rqPrep->execute();
 		}
 		
+		/**
+		* Fonction de mise à jour d'un article en BDD
+		* ALTER TABLE articles ADD COLUMN article_updated_at DATETIME NULL;
+		* @param object $objArticle L'objet article
+		* @return bool Est-ce que la requête s'est bien passée (true/false)
+		*/
+		public function update(object $objArticle):bool{
+
+			// Construire la requête
+			$strRq 	= "UPDATE articles 
+						SET article_title = :title,
+							article_content = :content, 
+							article_updated_at = NOW(), 
+							article_img = :img
+						WHERE article_id = :id";
+
+			// Préparer la requête
+			$rqPrep	= $this->_db->prepare($strRq);
+
+			// Donne les informations
+			$rqPrep->bindValue(":title", $objArticle->getTitle(), PDO::PARAM_STR);
+			$rqPrep->bindValue(":content", $objArticle->getContent(), PDO::PARAM_STR);
+			$rqPrep->bindValue(":img", $objArticle->getImg(), PDO::PARAM_STR);
+			$rqPrep->bindValue(":id", $objArticle->getId(), PDO::PARAM_INT);
+
+			// Executer la requête
+			return $rqPrep->execute();
+		}		
 	}
