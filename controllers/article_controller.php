@@ -83,9 +83,10 @@
 		* Page d'ajout / edition d'un Article
 		*/
 		public function addedit(){
-			
-			var_dump($_POST);
-			var_dump($_FILES);
+			if (!isset($_SESSION['user'])){ // Pas d'utilisateur connecté
+				header("Location:index.php?ctrl=error&action=error_403");
+				exit;
+			}
 			
 			$objArticle	= new Article;
 			$objArticle->hydrate($_POST);
@@ -107,30 +108,52 @@
 				}
 				// Si le formulaire est rempli correctement
 				if (count($arrError) == 0){
-					$strImageName	= uniqid();
-					switch ($_FILES['img']['type']){
+					// Renommage de l'image 
+					$strImageName	= uniqid().".webp";
+					
+					/* uniquement si on veut garder l'extension du fichier originel */
+					/*switch ($_FILES['img']['type']){
 						case 'image/jpeg' :
 							$strImageName .= '.jpg';
 							break;
 						case 'image/png' :
 							$strImageName .= '.png';
 							break;
-					}
+					}*/
 					
 					// => Ajout dans la base de données 
 					$objArticleModel	= new ArticleModel;
+					// Mise à jour du nom de l'image dans l'objet
 					$objArticle->setImg($strImageName);
 
 					$boolInsert 		= $objArticleModel->insert($objArticle);
 					if ($boolInsert === true){
-						$strDest = 'assets/images/'.$strImageName;
-						
-						// TODO 
-							// => Redimensionner l'image
-							// => Ajouter un logo (option)
-						
-						
-						if (move_uploaded_file($_FILES['img']['tmp_name'], $strDest)){
+						// Création du chemin de destination
+						$strDest    = 'assets/images/'.$strImageName;
+						// Récupération de la source de l'image
+                        $strSource	= $_FILES['img']['tmp_name'];
+                        // Récupération des dimensions de l'image source
+                        list($intWidth, $intHeight) = getimagesize($strSource);
+                        // Création d'une image 'vide'
+                        $objDest		= imagecreatetruecolor(200, 250); 
+						// Création d'un objet image à partir de la source (attention au type de fichier)
+						switch ($_FILES['img']['type']){
+							case 'image/jpeg' :
+								$objSource		= imagecreatefromjpeg($strSource);
+								break;
+							case 'image/png' :
+								$objSource		= imagecreatefrompng($strSource);
+								break;
+							case 'image/webp' :
+								$objSource		= imagecreatefromwebp($strSource);
+								break;
+						}
+						// Mise à jour de l'image 'vide' avec les informations de dimension
+                        //imagecopyresized($objDest, $objSource, 0, 0, 0, 0, 200, 250, $intWidth, $intHeight);
+						imagecopyresampled($objDest, $objSource, 0, 0, 0, 0, 200, 250, $intWidth, $intHeight);
+						// Si la copie de l'image a bien été effectuée à la destination voulue
+                        if(imagewebp($objDest, $strDest)){
+						//if (move_uploaded_file($_FILES['img']['tmp_name'], $strDest)){
 							$_SESSION['success'] 	= "L'article a bien été créé";
 							header("Location:index.php");
 							exit;
