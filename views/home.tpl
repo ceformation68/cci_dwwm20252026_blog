@@ -7,6 +7,7 @@
 {block name="p"}Découvrez nos derniers articles sur le développement web{/block}
 
 {block name="content"}
+
 <section aria-label="Articles récents">
 	<h2 class="visually-hidden">Les 4 derniers articles</h2>
 	<a class="btn btn-success" href="index.php?ctrl=article&action=addedit">Ajouter un article</a>

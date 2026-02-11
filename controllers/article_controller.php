@@ -170,7 +170,7 @@
 					if ($boolOk === true){
 						if (isset($strImageName)){
 							// Création du chemin de destination
-							$strDest    = 'assets/images/'.$strImageName;
+							$strDest    = $_ENV['IMG_PATH'].$strImageName;
 							// Récupération de la source de l'image
 							$strSource	= $_FILES['img']['tmp_name'];
 							// Récupération des dimensions de l'image source
@@ -227,7 +227,7 @@
 						if ($boolOk === true){
 						//if (move_uploaded_file($_FILES['img']['tmp_name'], $strDest)){
 							// suppression de l'ancienne image
-							$strOldFile	= "assets/images/".$strOldImg;
+							$strOldFile	= $_ENV['IMG_PATH'].$strOldImg;
 							if (file_exists($strOldFile)){
 								unlink($strOldFile);
 							}

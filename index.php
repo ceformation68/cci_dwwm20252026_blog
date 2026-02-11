@@ -3,6 +3,10 @@
 	session_start(); 
 	
 	require("vendor/autoload.php"); // PArce que j'utilise composer
+	$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+	$dotenv->load();
+	//var_dump($_ENV);
+	
 	require("controllers/mother_controller.php");
 	
 	// Récupère les infos dans l'url

@@ -17,7 +17,7 @@
 			</a>
 		</div>
 		<div class="col-auto d-none d-lg-block">
-			<img class="bd-placeholder-img" width="200" height="250" src="assets/images/{$objArticle->getImg()}" alt="Logo JavaScript - Article sur l'évolution du JavaScript" loading="lazy">
+			<img class="bd-placeholder-img" width="200" height="250" src="{$smarty.env.IMG_PATH}/{$objArticle->getImg()}" alt="Logo JavaScript - Article sur l'évolution du JavaScript" loading="lazy">
 		</div>
 	</div>
 </article>
