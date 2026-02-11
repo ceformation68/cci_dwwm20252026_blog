@@ -8,8 +8,10 @@
 		
 		/** 
 		* Méthode d'affichage des pages 
+		* @param string $strView le template à afficher
+		* @param bool $boolDisplay par défaut true est-ce que j'affiche la vue ?
 		*/
-		protected function _display($strView){
+		protected function _display(string $strView, bool $boolDisplay = true){
 			// Création de l'objet Smarty
 			$objSmarty	= new Smarty();
 			// Ajouter le var_dump au modificateur de smarty : vardump est le nom appelé après le |
@@ -30,7 +32,11 @@
 				unset($_SESSION['error']);
 			}
 			
-			$objSmarty->display("views/".$strView.".tpl");
+			if ($boolDisplay){
+				$objSmarty->display("views/".$strView.".tpl");
+			}else{
+				return $objSmarty->fetch("views/".$strView.".tpl");
+			}
 			
 			// inclusion du header
 			/*include("views/_partial/header.php");
