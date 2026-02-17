@@ -1,4 +1,6 @@
 <?php
+	namespace Blog\Controllers;
+
 	/** 
 	* Le contrôleur des erreurs
 	* @author Christel

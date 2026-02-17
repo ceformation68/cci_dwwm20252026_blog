@@ -1,5 +1,8 @@
 <?php
-	require_once("mother_entity.php");
+	namespace Blog\Entities;
+	
+	// require_once("mother_entity.php");
+	// Devient inutile car Entity se trouve dans le même espace de noms que Article
 	
 	class User extends Entity{
 		// Attributs 

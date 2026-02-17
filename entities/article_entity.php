@@ -1,5 +1,9 @@
 <?php
-	require_once("mother_entity.php");
+	namespace Blog\Entities; //< Création d'un espace de noms pour les entités
+	
+	//require_once("mother_entity.php");
+	// Devient inutile car Entity se trouve dans le même espace de noms que Article
+	// Article "voit" Entity sans avoir besoin de faire de use ou require
 	
 	/**
 	* Classe d'un objet Article

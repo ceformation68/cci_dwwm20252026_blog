@@ -1,4 +1,6 @@
 <?php
+	namespace Blog\Models;
+	
 	class Connect {
 		
 		protected $_db;

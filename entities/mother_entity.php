@@ -1,4 +1,6 @@
 <?php
+	namespace Blog\Entities;
+	
 	class Entity {
 
 		protected ?int $_id = null;

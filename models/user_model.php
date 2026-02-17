@@ -1,5 +1,8 @@
 <?php
-	require_once("mother_model.php");
+	namespace Blog\Models;
+	
+	// require_once("mother_model.php");
+	// Devient inutile car UserModel se trouve dans le même espace de noms que Connect
 
 	/**
 	* Traitement des requêtes pour les utilisateurs

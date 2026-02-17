@@ -1,6 +1,11 @@
 <?php
-	require("models/article_model.php");
-	require("entities/article_entity.php");
+	namespace Blog\Controllers; //< On rajoute un espace de noms pour les contrôleurs
+
+	// require("models/article_model.php");
+	use Blog\Models\ArticleModel;
+	
+	// require("entities/article_entity.php");
+	use Blog\Entities\Article;
 	
 	/** 
 	* Le contrôleur des articles

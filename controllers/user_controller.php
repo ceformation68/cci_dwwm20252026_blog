@@ -1,6 +1,11 @@
 <?php
-	require("models/user_model.php");
-	require("entities/user_entity.php");
+	namespace Blog\Controllers;
+	
+	// require("models/user_model.php");
+	use Blog\Models\UserModel;
+	
+	// require("entities/user_entity.php");
+	use Blog\Entities\User;
 	
 	/** 
 	* Le contrôleur des utilisateurs

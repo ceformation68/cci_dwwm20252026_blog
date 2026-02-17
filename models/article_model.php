@@ -1,5 +1,9 @@
 <?php
-	require_once("mother_model.php");
+	namespace Blog\Models; //< Création d'un espace de noms pour les modèles
+	
+	// require_once("mother_model.php");
+	// Devient inutile car ArticleModel se trouve dans le même espace de noms que Connect
+	
 	/**
 	* Traitement des requêtes pour les articles
 	* @author Christel
