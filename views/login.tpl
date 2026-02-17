@@ -18,6 +18,9 @@
 			<input name="pwd" class="form-control {if (isset($arrError['pwd'])) } is-invalid {/if} " type="password" >
 		</p>
 		<p>
+			<a href="index.php?ctrl=password&action=request_reset">Mot de passe oublié ?</a>
+		</p>
+		<p>
 			<input class="form-control btn btn-primary" type="submit" >
 		</p>
 	</form>

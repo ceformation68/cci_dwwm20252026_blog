@@ -35,10 +35,10 @@
                 // Connection au serveur de mail
                 $objMail->SMTPAuth   	= TRUE;
                 $objMail->SMTPSecure 	= "tls";
-                $objMail->Port       	= 587;
-                $objMail->Host       	= "smtp.gmail.com";
-                $objMail->Username 		= 'christel.ceformation@gmail.com';
-                $objMail->Password 		= 'cdbk mrjr aiqo tndi';
+                $objMail->Port       	= $_ENV['MAILER_PORT'];
+                $objMail->Host       	= $_ENV['MAILER_HOST'];
+                $objMail->Username 		= $_ENV['MAILER_USERNAME'];
+                $objMail->Password 		= $_ENV['MAILER_PASSWORD'];
 
                 // Comment envoyer le mail
                 $objMail->IsHTML(true); // en HTML
