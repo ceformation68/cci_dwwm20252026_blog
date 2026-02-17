@@ -90,6 +90,6 @@
 	if($boolError){
 		//echo "error 404 - page introuvable"; 
 		// remplacer par redirection vers controller error -> 404
-		//header("Location:index.php?ctrl=error&action=error_404");
-		//exit;
+		header("Location:index.php?ctrl=error&action=error_404");
+		exit;
 	}
