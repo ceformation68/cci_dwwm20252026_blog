@@ -1,6 +1,8 @@
 <?php
 	namespace Blog\Models;
 	
+	use PDO;
+	
 	// require_once("mother_model.php");
 	// Devient inutile car UserModel se trouve dans le même espace de noms que Connect
 

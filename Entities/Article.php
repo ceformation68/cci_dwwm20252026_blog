@@ -1,6 +1,9 @@
 <?php
 	namespace Blog\Entities; //< Création d'un espace de noms pour les entités
 	
+	use DateTime;
+	use IntlDateFormatter;
+	
 	//require_once("mother_entity.php");
 	// Devient inutile car Entity se trouve dans le même espace de noms que Article
 	// Article "voit" Entity sans avoir besoin de faire de use ou require

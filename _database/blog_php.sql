@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS `articles` (
   `article_content` mediumtext NOT NULL,
   `article_createdate` datetime NOT NULL,
   `article_creator` int(11) NOT NULL,
+  `article_updated_at` datetime NULL,
   PRIMARY KEY (`article_id`),
   KEY `article_creator` (`article_creator`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
@@ -64,6 +65,9 @@ CREATE TABLE IF NOT EXISTS `users` (
   `user_firstname` varchar(255) NOT NULL,
   `user_mail` varchar(255) NOT NULL,
   `user_pwd` varchar(255) NOT NULL,
+  `user_created_at` datetime NOT NULL,
+  `user_deleted_at` datetime NULL,
+  `user_updated_at` datetime NULL,
   PRIMARY KEY (`user_id`),
   KEY `user_mail` (`user_mail`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;

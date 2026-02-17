@@ -7,6 +7,8 @@
 	// require("entities/article_entity.php");
 	use Blog\Entities\Article;
 	
+	use Blog\Models\UserModel;
+	
 	/** 
 	* Le contrôleur des articles
 	* @author Christel
@@ -64,7 +66,7 @@
 			}
 
 			// Récupération des utilisateurs
-			require("models/user_model.php");
+			// require("models/user_model.php");
 			$objUserModel 	= new UserModel;
 			$arrUser 		= $objUserModel->findAllUsers();
 			

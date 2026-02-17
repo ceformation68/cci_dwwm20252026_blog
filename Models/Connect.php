@@ -1,6 +1,11 @@
 <?php
 	namespace Blog\Models;
 	
+	// Il faut spécifier à PHP que les classes PDO et PDOException ne se trouvent pas
+	// dans le même espace de nom (Blog\Models)
+	use PDO;
+	use PDOException;
+	
 	class Connect {
 		
 		protected $_db;
@@ -18,7 +23,7 @@
 				$this->_db->exec("SET CHARACTER SET utf8");
 				// Configuration des exceptions
 				$this->_db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);			
-			} catch(PDOException$e) {
+			} catch(PDOException $e) {
 				echo "Échec : " . $e->getMessage();
 			}
 		}
