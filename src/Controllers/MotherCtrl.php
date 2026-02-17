@@ -1,5 +1,5 @@
 <?php
-	namespace Blog\Controllers;
+	namespace Cricri\Blog\Controllers;
 
 	use Smarty\Smarty;
 	

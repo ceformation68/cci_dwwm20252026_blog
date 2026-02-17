@@ -1,5 +1,5 @@
 <?php
-	namespace Blog\Entities;
+	namespace Cricri\Blog\Entities;
 	
 	class Entity {
 

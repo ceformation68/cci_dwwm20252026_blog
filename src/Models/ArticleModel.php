@@ -1,5 +1,5 @@
 <?php
-	namespace Blog\Models; //< Création d'un espace de noms pour les modèles
+	namespace Cricri\Blog\Models; //< Création d'un espace de noms pour les modèles
 	
 	use PDO;
 	

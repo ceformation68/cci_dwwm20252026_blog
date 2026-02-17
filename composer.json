@@ -1,5 +1,5 @@
 {
-    "name": "christel/blog_html",
+    "name": "cricri/blog",
     "description": "Mon blog",
     "require": {
         "smarty/smarty": "^5.7",
@@ -8,7 +8,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Christel\\BlogHtml\\": "src/"
+            "Cricri\\Blog\\": "src/"
         }
     },
     "authors": [

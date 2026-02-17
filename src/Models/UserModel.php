@@ -1,5 +1,5 @@
 <?php
-	namespace Blog\Models;
+	namespace Cricri\Blog\Models;
 	
 	use PDO;
 	

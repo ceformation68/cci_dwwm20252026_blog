@@ -1,5 +1,5 @@
 <?php
-	namespace Blog\Entities;
+	namespace Cricri\Blog\Entities;
 	
 	// require_once("mother_entity.php");
 	// Devient inutile car Entity se trouve dans le même espace de noms que Article

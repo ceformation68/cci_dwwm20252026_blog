@@ -1,5 +1,5 @@
 <?php
-	namespace Blog\Entities; //< Création d'un espace de noms pour les entités
+	namespace Cricri\Blog\Entities; //< Création d'un espace de noms pour les entités
 	
 	use DateTime;
 	use IntlDateFormatter;

@@ -4,6 +4,7 @@
 	
 	// Définition de l'autoloader de notre application :
 	// Comment on charge un fichier PHP en fonction du nom de la classe qu'on soihaite utiliser
+	/*
 	spl_autoload_register(function($class_name) {
 		
 		// On renomme les fichiers et les répertoires
@@ -25,8 +26,18 @@
 		
 		require_once $strClassFilename;		
 	});
+	*/
+	
+	/*
+		On migre vers l'autoloader de Composer
+		- création du répertoire src/
+		- Déplace les classes correspondantes (uniquement les classes, pas les templates)
+		- Modifie le nom de base de l'espace de nom (Cricri\Blog)
+		- Si on a modifié le fichier composer.json, on n'oublie pas de lancer un ```composer install```
+	*/
 	
 	require("vendor/autoload.php"); // PArce que j'utilise composer
+	
 	$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 	$dotenv->load();
 	//var_dump($_ENV);
@@ -56,9 +67,10 @@
 		// Construction du nom de la classe
 		
 		// On rajoute bien le "préfixe" de l'espace de nom des contrôleurs
-		$strClassName	= "Blog\\Controllers\\" . ucfirst($strCtrl)."Ctrl";
+		$strClassName	= "Cricri\\Blog\\Controllers\\" . ucfirst($strCtrl)."Ctrl";
 		
 		if (class_exists($strClassName)){
+			
 			// si la classe existe, on l'instancie
 			$objController 	= new $strClassName();
 			if (method_exists($objController, $strMethod)){
@@ -78,6 +90,6 @@
 	if($boolError){
 		//echo "error 404 - page introuvable"; 
 		// remplacer par redirection vers controller error -> 404
-		header("Location:index.php?ctrl=error&action=error_404");
-		exit;
+		//header("Location:index.php?ctrl=error&action=error_404");
+		//exit;
 	}

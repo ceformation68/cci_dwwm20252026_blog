@@ -1,13 +1,13 @@
 <?php
-	namespace Blog\Controllers; //< On rajoute un espace de noms pour les contrôleurs
+	namespace Cricri\Blog\Controllers; //< On rajoute un espace de noms pour les contrôleurs
 
 	// require("models/article_model.php");
-	use Blog\Models\ArticleModel;
+	use Cricri\Blog\Models\ArticleModel;
 	
 	// require("entities/article_entity.php");
-	use Blog\Entities\Article;
+	use Cricri\Blog\Entities\Article;
 	
-	use Blog\Models\UserModel;
+	use Cricri\Blog\Models\UserModel;
 	
 	/** 
 	* Le contrôleur des articles

@@ -1,11 +1,11 @@
 <?php
-	namespace Blog\Controllers;
+	namespace Cricri\Blog\Controllers;
 	
 	// require("models/user_model.php");
-	use Blog\Models\UserModel;
+	use Cricri\Blog\Models\UserModel;
 	
 	// require("entities/user_entity.php");
-	use Blog\Entities\User;
+	use Cricri\Blog\Entities\User;
 	
 	/** 
 	* Le contrôleur des utilisateurs

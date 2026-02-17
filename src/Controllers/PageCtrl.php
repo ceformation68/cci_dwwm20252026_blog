@@ -1,5 +1,5 @@
 <?php
-	namespace Blog\Controllers;
+	namespace Cricri\Blog\Controllers;
 	
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\Exception;

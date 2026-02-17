@@ -1,5 +1,5 @@
 <?php
-	namespace Blog\Models;
+	namespace Cricri\Blog\Models;
 	
 	// Il faut spécifier à PHP que les classes PDO et PDOException ne se trouvent pas
 	// dans le même espace de nom (Blog\Models)
