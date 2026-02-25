@@ -46,11 +46,19 @@
 			// Executer la requête et récupérer les résultats
 			$arrUser 	= $this->_db->query($strRq)->fetch();
 			// Vérification du mot de passe haché
-			if ($arrUser !== false && password_verify($strPwd, $arrUser['user_pwd'])){
-				// Renvoi l'utilisateur 
-				unset($arrUser['user_pwd']); // on enlève le pwd
-				return $arrUser;
+			if ($arrUser !== false){
+				if (password_verify($strPwd, $arrUser['user_pwd'])){
+					// Renvoi l'utilisateur 
+					unset($arrUser['user_pwd']); // on enlève le pwd
+					$this->brute_force($strMail, $arrUser['user_id'], 1);
+					return $arrUser;
+				}else{
+					$this->brute_force($strMail, $arrUser['user_id']);
+					return false;
+				}
 			}else{
+				// L'utilisateur n'existe pas en BDD
+				$this->brute_force($strMail);
 				return false;
 			}
 		}
@@ -186,5 +194,18 @@
 			// Executer la requête
 			return $rqPrep->execute();
 		}		
+		
+		
+		function brute_force($strMail, $intUserId = "NULL", $boolOK = 0){
+			$strRq 	= "INSERT INTO login_attempts 
+						(login_ip, login_agent, login_mail, login_user, login_ok)
+						VALUES ('".$_SERVER['REMOTE_ADDR']."', 
+								'".$_SERVER['HTTP_USER_AGENT']."', 
+								'".$strMail."', 
+								".$intUserId.", 
+								".$boolOK.")";
+			return $this->_db->exec($strRq);
+			
+		}
 		
 	}
