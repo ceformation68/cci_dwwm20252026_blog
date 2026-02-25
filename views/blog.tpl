@@ -4,7 +4,9 @@
 
 {block name="title" append}Blog{/block}
 {block name="h2"}Blog{/block}
-{block name="p"}Découvrez tous nos articles et utilisez la recherche pour trouver ce qui vous intéresse{/block}
+{block name="p"}Découvrez tous nos articles et utilisez la recherche pour trouver ce qui vous intéresse.<br>
+				Vous pouvez également <a href='index.php?ctrl=article&action=archive' >voir les archives</a>.
+{/block}
 
 {block name="og"}
     <!-- Open Graph -->

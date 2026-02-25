@@ -19,7 +19,7 @@
 		* @param int $intLimit Nb de résultats demandés, par défaut 0 = tous
 		* @return array Tableau des articles provenant de la base de données 
 		*/		
-		public function findAll(int $intLimit=0):array{
+		public function findAll(int $intLimit=0, bool $boolCurrent = true):array{
 			
 			// Ecrire la requête
 			$strRq	= "SELECT articles.*, 
@@ -29,9 +29,13 @@
 			// Pour le where (un seul)
 			//$boolWhere	= false; // flag
 			$strWhere	= " WHERE ";
+			if ($boolCurrent){
+				$strRq .= $strWhere." article_createdate > DATE_SUB(CURRENT_DATE, INTERVAL 20 DAY)";
+				$strWhere	= " AND ";
+			}
 			// Recherche par mot clé
 			if ($this->strKeywords != '') {
-				$strRq .= " WHERE (article_title LIKE '%".$this->strKeywords."%'
+				$strRq .= $strWhere." (article_title LIKE '%".$this->strKeywords."%'
 								OR article_content LIKE '%".$this->strKeywords."%') ";
 				//$boolWhere	= true;
 				$strWhere	= " AND ";

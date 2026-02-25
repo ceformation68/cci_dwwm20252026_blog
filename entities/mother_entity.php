@@ -6,8 +6,10 @@
 
 		/**
 		* Hydratation de l'objet en utilisant les setters 
+		* @param array $arrData Tableau des données
+		* @return object L'objet courant
 		*/
-		public function hydrate(array $arrData){
+		public function hydrate(array $arrData):object{
 			foreach($arrData as $key=>$value){
 				// nom de la méthode
 				$strMethodName = "set".ucfirst(str_replace($this->_prefixe, '', $key));
@@ -15,6 +17,7 @@
 					$this->$strMethodName($value); 
 				}
 			}
+			return $this; // Renvoie l'objet courant
 			/*
 			$this->setId($arrData['article_id']); 
 			$this->setTitle($arrData['article_title']); 

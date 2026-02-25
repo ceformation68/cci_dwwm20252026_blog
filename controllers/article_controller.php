@@ -254,4 +254,21 @@
 			$this->_display("addedit_article");
 		}
 		
+		public function archive(){
+			
+			$objArticleModel 	= new ArticleModel();
+			// Tous les articles même expirés, paramètres dans l'ordre
+			//$arrArticle			= $objArticleModel->findAll(0, false);
+			// Tous les articles même expirés, en changeant juste le paramètre boolCurrent
+			$arrArticle			= $objArticleModel->findAll(boolCurrent:false);
+			
+			$arrArticlesToDisplay	= array(); // = [];
+			foreach ($arrArticle as $arrDetArticle){
+				$objArticle	= new Article();
+				$arrArticlesToDisplay[]	= $objArticle->hydrate($arrDetArticle);
+			}
+			$this->_arrData['arrArticlesToDisplay']	= $arrArticlesToDisplay;
+			$this->_display("archive");
+		}
+		
 	}
