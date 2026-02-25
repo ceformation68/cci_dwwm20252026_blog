@@ -7,6 +7,7 @@
 {block name="content"}
 <section aria-label="Créer un compte">
 	<form method="post">
+		<input class="form-control" type="hidden" name="crsf_token" value="{$form_token}" >
 		<p>
 			<label>Nom:</label>
 			<input name="name" value="{$objUser->getName()}" 

@@ -45,4 +45,31 @@
 		}
 		
 		
+		/** 
+		* Générer et stocker le token CSRF dans la session avec une expiration
+		* @return string $token le jeton généré
+		*/
+		protected function _generateCsrfToken():string {
+			$token = bin2hex(random_bytes(32)); // Génère un token aléatoire
+			$_SESSION['csrf_token'] = $token;
+			// Définir une expiration (par exemple, 30 minutes à partir de maintenant)
+			$_SESSION['csrf_token_expiration'] = time() + (30 * 60); // 30 minutes en secondes
+			return $token;
+		}
+		
+		/**
+		* Vérifier le token CSRF et son expiration
+		* @param string $token Le token à vérifier
+		* @return boolean le token est ok ou pas
+		*/
+		protected function _verifyCsrfToken(string $token):bool {
+			if ($_ENV['CSRF_TOKEN'] == 1){
+				return isset($_SESSION['csrf_token'])
+					&& $_SESSION['csrf_token'] === $token
+					&& isset($_SESSION['csrf_token_expiration'])
+					&& $_SESSION['csrf_token_expiration'] >= time(); // Vérifie si le token n'a pas expiré
+			}else{
+				return true;
+			}
+		}
 	}

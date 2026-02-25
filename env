@@ -5,5 +5,8 @@ DB_USERNAME=
 DB_PASSWORD=
 DB_PORT=
 
+# Activation du csrf ou pas (0:inactif - 1:actif)
+CSRF_TOKEN=0
+
 IMG_PATH=
 BASE_URL=

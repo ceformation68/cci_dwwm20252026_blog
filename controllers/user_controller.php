@@ -22,6 +22,13 @@
 			// Tester le formulaire
 			$arrError = [];
 			if (count($_POST) > 0) {
+				// Vérification du token du formulaire à l'aide de la fonction
+				if (!$this->_verifyCsrfToken($_POST['crsf_token'])){
+					// Si le token n'est pas valide (mauvais, inexistant ou expiré)
+					header("Location:index.php?ctrl=error&action=error_403");
+					exit;					
+				}
+				
 				// Fonction commune de vérification des infos utilisateur + mdp
 				$arrError	= array_merge($this->_verifInfos($objUser), 
 										  $this->_verifPwd($objUser, $strPwdConfirm));
@@ -42,9 +49,12 @@
 					//var_dump("tout est ok");
 				}
 			}	
-			
-			$this->_arrData['arrError'] = $arrError;
-			$this->_arrData['objUser'] 	= $objUser;
+			$this->_arrData['arrError'] 	= $arrError;
+			$this->_arrData['objUser'] 		= $objUser;
+
+			// Token généré (en session) et passé dans la vue pour affichage
+			$this->_arrData['form_token']	= $this->_generateCsrfToken();
+
 			// Afficher
 			$this->_display("create_account");
 		}
