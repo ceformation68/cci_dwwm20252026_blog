@@ -178,7 +178,8 @@
 										array(	'expires' => time()+15*60,
 												'secure' => true,
 												'httponly' => true,
-												'samesite' => 'Strict')
+												'samesite' => 'Strict',
+												'path'=>$_ENV['COOKIE_PATH'])
 										);
 						}
 						$_SESSION['success'] 	= "Le compte a bien été modifié";
