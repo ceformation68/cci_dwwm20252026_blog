@@ -8,5 +8,20 @@ DB_PORT=
 # Activation du csrf ou pas (0:inactif - 1:actif)
 CSRF_TOKEN=0
 
+# Chemins
 IMG_PATH=
 BASE_URL=
+COOKIE_PATH=''
+
+# Configuration Mail
+MAIL_MAILER=''
+MAIL_SMTPAuth=
+MAIL_SMTPSecure=''
+MAIL_PORT=
+MAIL_HOST=''
+MAIL_USERNAME=''
+MAIL_PWD=''
+MAIL_ISHTML=
+MAIL_FROM_EMAIL=''
+MAIL_FROM_NAME=''
+
