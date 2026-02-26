@@ -94,6 +94,7 @@
 			// dans la cas de modif
 			if (isset($_GET['id'])){
 				$arrArticle	= $objArticleModel->find($_GET['id']);
+				// Tester si creator != session => 403
 				$objArticle->hydrate($arrArticle); // BDD
 			}
 			

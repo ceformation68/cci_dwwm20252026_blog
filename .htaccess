@@ -1,0 +1,18 @@
+# interdire l'affichage de la liste des fichiers / répertoires
+Options -Indexes
+
+#interdire l'accès à certains fichiers
+<FilesMatch "^(\.env.*|\.(git|gitignore|htpasswd)|composer\.(json|lock)|package\.json)$">
+    Require all denied
+</FilesMatch>
+
+# Activation de la réécriture d'URL
+RewriteEngine On
+
+# si pas répertoire
+RewriteCond %{REQUEST_FILENAME} !-d
+# si pas fichier
+RewriteCond %{REQUEST_FILENAME} !-f
+
+RewriteRule ^(.+)/(.+)$ index.php?ctrl=$1&action=$2 [QSA,L]
+#article/blog devient index.php?ctrl=article&action=blog

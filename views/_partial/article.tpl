@@ -11,13 +11,13 @@
 				Lire la suite
 				<i class="fas fa-arrow-right" aria-hidden="true"></i>
 			</a>
-			<a href="index.php?ctrl=article&action=addedit&id={$objArticle->getId()}" class="icon-link gap-1 icon-link-hover">
+			<a href="article/addedit?id={$objArticle->getId()}" class="icon-link gap-1 icon-link-hover">
 				Modifier l'article
 				<i class="fas fa-edit" aria-hidden="true"></i>
 			</a>
 		</div>
 		<div class="col-auto d-none d-lg-block">
-			<img class="bd-placeholder-img" width="200" height="250" src="{$smarty.env.IMG_PATH}/{$objArticle->getImg()}" alt="Logo JavaScript - Article sur l'évolution du JavaScript" loading="lazy">
+			<img class="bd-placeholder-img" width="200" height="250" src="{$smarty.env.BASE_URL}{$smarty.env.IMG_PATH}/{$objArticle->getImg()}" alt="Logo JavaScript - Article sur l'évolution du JavaScript" loading="lazy">
 		</div>
 	</div>
 </article>
