@@ -25,7 +25,7 @@
 				// Vérification du token du formulaire à l'aide de la fonction
 				if (!$this->_verifyCsrfToken($_POST['crsf_token'])){
 					// Si le token n'est pas valide (mauvais, inexistant ou expiré)
-					header("Location:index.php?ctrl=error&action=error_403");
+					header("Location:".$_ENV['BASE_URL']."error/error_403");
 					exit;					
 				}
 				
@@ -41,8 +41,8 @@
 					$boolInsert 	= $objUserModel->insert($objUser);
 					if ($boolInsert === true){
 						$_SESSION['success'] 	= "Le compte a bien été créé";
-						//header("Location:index.php");
-						//exit;
+						header("Location:".$_ENV['BASE_URL']);
+						exit;
 					}else{
 						$arrError[] = "Erreur lors de l'ajout";
 					}
@@ -97,7 +97,7 @@
 						$_SESSION['user']		= $arrResult;
 						$_SESSION['success'] 	= "Bienvenue, vous êtes bien connecté";
 						
-						header("Location:index.php");
+						header("Location:".$_ENV['BASE_URL']);
 						exit;
 						//var_dump($_SESSION);
 						//var_dump("Connecté");
@@ -124,7 +124,7 @@
 			
 			$_SESSION['success'] 	= "Vous êtes bien déconnecté";
 			
-			header("Location:index.php");
+			header("Location:".$_ENV['BASE_URL']);
 			exit;
 		}
 		
@@ -134,7 +134,7 @@
 		*/
 		public function edit_account(){
 			if (!isset($_SESSION['user'])){ // Pas d'utilisateur connecté
-				header("Location:index.php?ctrl=error&action=error_403");
+				header("Location:".$_ENV['BASE_URL']."error/error_403");
 				exit;
 			}
 			
@@ -183,9 +183,9 @@
 						}
 						$_SESSION['success'] 	= "Le compte a bien été modifié";
 						if (!isset($_GET['id'])){
-							header("Location:index.php");
+							header("Location:".$_ENV['BASE_URL']);
 						}else{
-							header("Location:index.php?ctrl=user&action=user_list");
+							header("Location:".$_ENV['BASE_URL']."user/user_list");
 						}
 						exit;
 					}else{
@@ -206,7 +206,7 @@
 		*/
 		public function user_list(){
 			if (!isset($_SESSION['user'])){ // Pas d'utilisateur connecté
-				header("Location:index.php?ctrl=error&action=error_403");
+				header("Location:".$_ENV['BASE_URL']."error/error_403");
 				exit;
 			}
 			
@@ -235,14 +235,14 @@
 		*/
 		public function delete(){
 			if (!isset($_SESSION['user'])){ // Pas d'utilisateur connecté
-				header("Location:index.php?ctrl=error&action=error_403");
+				header("Location:".$_ENV['BASE_URL']."error/error_403");
 				exit;
 			}
 
 			// Ne pas se supprimer soi-même
 			if ($_GET['id'] == $_SESSION['user']['user_id']){
 				$_SESSION['error'] 	= "Vous ne pouvez pas vous supprimer vous-même";
-				header("Location:index.php?ctrl=user&action=user_list");
+				header("Location:".$_ENV['BASE_URL']."user/user_list");
 				exit;
 			}
 
@@ -258,7 +258,7 @@
 				$_SESSION['error'] 		= "Erreur lors de la suppression";
 			}
 			
-			header("Location:index.php?ctrl=user&action=user_list");
+			header("Location:".$_ENV['BASE_URL']."user/user_list");
 			exit;
 			
 		}
@@ -269,7 +269,6 @@
 		public function forgot_pwd(){
 			
 			if (count($_POST) >0) {
-				$_SESSION['success'] = "Si vous êtes inscrit sur notre site, vous allez recevoir un mail contenant un lien pour redéfinir votre mot de passe.";
 				$strMail 	= $_POST['mail'];
 				
 				$objModel	= new UserModel();
@@ -291,6 +290,8 @@
 						$this->_sendMail();
 					}
 				}
+				// A mettre après l'nvoi de mail, car sinon unset par la mère sur le display précédent
+				$_SESSION['success'] = "Si vous êtes inscrit sur notre site, vous allez recevoir un mail contenant un lien pour redéfinir votre mot de passe.";
 			}
 			
 			$this->_display("forgot_pwd");
@@ -302,7 +303,7 @@
 		public function recover_pwd(){
 			$objModel	= new UserModel();
 			$arrUser 	= $objModel->findUserByToken($_GET['token']);
-			
+			$arrError	= array();
 			if (count($_POST) > 0){
 				$objUser 	= new User();
 				$objUser->setPwd($_POST['pwd']);
@@ -312,7 +313,7 @@
 					$boolOk	= $objModel->updatePwd($objUser);
 					if ($boolOk){
 						$_SESSION['success'] = "Votre mot de passe a bien été changé";
-						header("Location:index.php?ctrl=user&action=login");
+						header("Location:".$_ENV['BASE_URL']."user/login");
 						exit;
 					}else{
 						$arrError[]	= "Erreur lors du changement de mot de passe.";

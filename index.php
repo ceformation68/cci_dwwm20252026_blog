@@ -41,6 +41,6 @@
 	if($boolError){
 		//echo "error 404 - page introuvable"; 
 		// remplacer par redirection vers controller error -> 404
-		header("Location:index.php?ctrl=error&action=error_404");
+		header("Location:".$_ENV['BASE_URL']."error/error_404");
 		exit;
 	}

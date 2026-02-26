@@ -26,7 +26,7 @@
                 $this->_objMail->Subject    = "Contact Form";
 				
 				$this->_arrData['strName'] 	= $_POST['name']??'';
-                $this->_objMail->Body   	= $this->_display("mail_message", false);
+                $this->_objMail->Body   	= $this->_display("mails/mail_message", false);
 
                 // Envoyer le mail
                 $this->_sendMail();

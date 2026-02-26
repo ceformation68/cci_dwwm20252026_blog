@@ -5,7 +5,7 @@
 {block name="title" append}Blog{/block}
 {block name="h2"}Blog{/block}
 {block name="p"}Découvrez tous nos articles et utilisez la recherche pour trouver ce qui vous intéresse.<br>
-				Vous pouvez également <a href='index.php?ctrl=article&action=archive' >voir les archives</a>.
+				Vous pouvez également <a href='{$smarty.env.BASE_URL}article/archive' >voir les archives</a>.
 {/block}
 
 {block name="og"}
@@ -51,7 +51,7 @@
 	<h2 class="visually-hidden">Rechercher parmi les articles</h2>
 	<div class="row mb-2">
 		<section class="mb-5" aria-labelledby="search-heading">
-			<form name="formSearch" method="post" action="index.php?ctrl=article&action=blog" class="border rounded p-4 bg-light">
+			<form name="formSearch" method="post" action="{$smarty.env.BASE_URL}article/blog" class="border rounded p-4 bg-light">
 				<h3 id="search-heading" class="h4 mb-4">
 					<i class="fas fa-search me-2" aria-hidden="true"></i>
 					Rechercher des articles

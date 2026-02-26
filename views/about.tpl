@@ -123,15 +123,15 @@
 			<h3 id="rejoignez-nous" class="h4 mb-3">Rejoignez notre communauté</h3>
 			<p>
 				Vous souhaitez être informé de nos derniers articles et bénéficier de conseils exclusifs ? 
-				N'hésitez pas à <a href="contact.html">nous contacter</a> ou à consulter régulièrement 
-				notre <a href="blog.html">blog</a> pour découvrir de nouveaux contenus.
+				N'hésitez pas à <a href="{$smarty.env.BASE_URL}page/contact">nous contacter</a> ou à consulter régulièrement 
+				notre <a href="{$smarty.env.BASE_URL}article/blog">blog</a> pour découvrir de nouveaux contenus.
 			</p>
 			<div class="mt-3">
-				<a href="blog.html" class="btn btn-primary me-2">
+				<a href="{$smarty.env.BASE_URL}article/blog" class="btn btn-primary me-2">
 					<i class="fas fa-newspaper me-2" aria-hidden="true"></i>
 					Voir le blog
 				</a>
-				<a href="contact.html" class="btn btn-outline-primary">
+				<a href="{$smarty.env.BASE_URL}page/contact" class="btn btn-outline-primary">
 					<i class="fas fa-envelope me-2" aria-hidden="true"></i>
 					Nous contacter
 				</a>

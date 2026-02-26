@@ -30,7 +30,7 @@
             <section class="col-md-8">
                 <h3 class="pb-4 mb-4 fst-italic border-bottom">Contactez-nous</h3>
 
-                <form name="contactForm" action="#" method="post" novalidate id="contact-form" aria-label="Formulaire de contact">
+                <form name="contactForm" action="{$smarty.env.BASE_URL}page/contact" method="post" novalidate id="contact-form" aria-label="Formulaire de contact">
                     <div class="row g-3">
                         <div class="col-12">
                             <p class="text-muted">
@@ -207,7 +207,7 @@
                                 aria-describedby="rgpd-error">
                             <label for="rgpd" class="form-check-label">
                                 J'accepte le traitement de mes données conformément au 
-                                <a href="mentions.html#rgpd" target="_blank">RGPD</a>
+                                <a href="{$smarty.env.BASE_URL}page/mentions#rgpd" target="_blank">RGPD</a>
                                 <abbr title="obligatoire" >*</abbr>
                             </label>
                             <div id="rgpd-error" class="invalid-feedback">

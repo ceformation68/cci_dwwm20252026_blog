@@ -282,7 +282,7 @@
                         </li>
                         <li class="mb-2">
                             <i class="fas fa-paper-plane me-2" aria-hidden="true"></i>
-                            Via le <a href="contact.html">formulaire de contact</a>
+                            Via le <a href="{$smarty.env.BASE_URL}page/contact">formulaire de contact</a>
                         </li>
                     </ul>
                 </section>

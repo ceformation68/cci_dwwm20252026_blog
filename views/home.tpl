@@ -10,7 +10,9 @@
 
 <section aria-label="Articles récents">
 	<h2 class="visually-hidden">Les 4 derniers articles</h2>
-	<a class="btn btn-success" href="index.php?ctrl=article&action=addedit">Ajouter un article</a>
+	{if (isset($smarty.session.user)) } 
+	<a class="btn btn-success" href="{$smarty.env.BASE_URL}article/addedit">Ajouter un article</a>
+	{/if}
 	<div class="row mb-2">
 	{* Tableau d'affichage *}
 	{*$arrArticleToDisplay|vardump*}

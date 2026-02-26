@@ -5,5 +5,5 @@
 {block name="p"}La page n'existe pas{/block}
 
 {block name="content"}
-<img src="assets/images/error-404.png" />
+<img src="{$smarty.env.BASE_URL}{$smarty.env.IMG_PATH}/error-404.png" />
 {/block}

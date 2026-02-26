@@ -24,7 +24,7 @@
 			<p>
 				<label>Image:</label>
 				{if (!$objArticle->getId()|is_null)}
-				<img src="assets/images/{$objArticle->getImg()}">
+				<img src="{$smarty.env.BASE_URL}{$smarty.env.IMG_PATH}/{$objArticle->getImg()}">
 				{/if}
 				<input name="img" class="form-control {if (isset($arrError['img'])) } is-invalid {/if}" type="file">
 			</p>

@@ -4,11 +4,11 @@
         <nav aria-label="Navigation pied de page">
             <ul class="list-inline">
                 <li class="list-inline-item">
-                    <a href="index.php?ctrl=page&action=mentions">Mentions légales</a>
+                    <a href="{$smarty.env.BASE_URL}page/mentions">Mentions légales</a>
                 </li>
                 <li class="list-inline-item" aria-hidden="true">|</li>
                 <li class="list-inline-item">
-                    <a href="index.php?ctrl=page&action=contact">Contact</a>
+                    <a href="{$smarty.env.BASE_URL}page/contact">Contact</a>
                 </li>
             </ul>
         </nav>

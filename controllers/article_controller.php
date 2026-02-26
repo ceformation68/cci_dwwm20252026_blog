@@ -84,7 +84,7 @@
 		*/
 		public function addedit(){
 			if (!isset($_SESSION['user'])){ // Pas d'utilisateur connecté
-				header("Location:index.php?ctrl=error&action=error_403");
+				header("Location:".$_ENV['BASE_URL']."error/error_403");
 				exit;
 			}
 			
@@ -238,7 +238,7 @@
 							}else{
 								$_SESSION['success'] 	= "L'article a bien été modifié";
 							}
-							header("Location:index.php");
+							header("Location:".$_ENV['BASE_URL']);
 							exit;
 						}else{
 							$arrError['img'] = "Erreur dans le traitement de l'image";

@@ -6,7 +6,7 @@
 
 {block name="content"}
 <section aria-label="Créer un compte">
-	<form method="post">
+	<form method="post" action="{$smarty.env.BASE_URL}user/create_account" >
 		<input class="form-control" type="hidden" name="crsf_token" value="{$form_token}" >
 		<p>
 			<label>Nom:</label>
