@@ -1,8 +1,8 @@
 {extends file="views/layout.tpl"}
 
-{block name="title" append}Me connecter{/block}
-{block name="h2"}Me connecter{/block}
-{block name="p"}Connexion au site{/block}
+{block name="title" append}Mot de passe oublié{/block}
+{block name="h2"}Mot de passe oublié{/block}
+{block name="p"}Renseigner son mail pour changer son mot de passe{/block}
 
 {block name="content"}
 
@@ -14,13 +14,8 @@
 				class="form-control {if (isset($arrError['mail'])) } is-invalid {/if} " type="email" >
 		</p>
 		<p>
-			<label>Mot de passe:</label>
-			<input name="pwd" class="form-control {if (isset($arrError['pwd'])) } is-invalid {/if} " type="password" >
-		</p>
-		<p>
 			<input class="form-control btn btn-primary" type="submit" >
 		</p>
 	</form>
-	<a href="index.php?ctrl=user&action=forgot_pwd">Mot de passe oublié</a>
 </section>
 {/block}

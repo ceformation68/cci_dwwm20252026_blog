@@ -262,6 +262,71 @@
 			exit;
 			
 		}
+		
+		/**
+		* Page "Mot de passe oublié
+		*/
+		public function forgot_pwd(){
+			
+			if (count($_POST) >0) {
+				$_SESSION['success'] = "Si vous êtes inscrit sur notre site, vous allez recevoir un mail contenant un lien pour redéfinir votre mot de passe.";
+				$strMail 	= $_POST['mail'];
+				
+				$objModel	= new UserModel();
+				$arrUser 	= $objModel->findUserByMail($strMail);
+				
+				if ($arrUser !== false){
+					$strToken 	= bin2hex(random_bytes(64)); // Génère un token aléatoire
+					$boolOk		= $objModel->updateForgotInfos($strToken, $arrUser['user_id']);
+					if ($boolOk){
+						// Destinataire(s)
+						$this->_objMail->addAddress($arrUser['user_mail'], $arrUser['user_name'].' '.$arrUser['user_firstname']);
+
+						// Mail
+						$this->_objMail->Subject    = "Mot de passe oublié";
+				
+						$this->_arrData['token'] = $strToken;
+						$this->_objMail->Body      	= $this->_display("mails/mail_forgot_pwd", false);
+						
+						$this->_sendMail();
+					}
+				}
+			}
+			
+			$this->_display("forgot_pwd");
+		}
+		
+		/**
+		* Page de modification du mot de passe si oublié
+		*/
+		public function recover_pwd(){
+			$objModel	= new UserModel();
+			$arrUser 	= $objModel->findUserByToken($_GET['token']);
+			
+			if (count($_POST) > 0){
+				$objUser 	= new User();
+				$objUser->setPwd($_POST['pwd']);
+				$objUser->setId($arrUser['user_id']);
+				$arrError 	= $this->_verifPwd($objUser, $_POST['confirm_pwd']);
+				if (count($arrError) == 0){
+					$boolOk	= $objModel->updatePwd($objUser);
+					if ($boolOk){
+						$_SESSION['success'] = "Votre mot de passe a bien été changé";
+						header("Location:index.php?ctrl=user&action=login");
+						exit;
+					}else{
+						$arrError[]	= "Erreur lors du changement de mot de passe.";
+					}
+				}
+			}			
+			
+			$this->_arrData['arrError']	= $arrError;
+			$this->_arrData['arrUser']	= $arrUser;
+			
+			$this->_display("recover_pwd");
+		}
+		
+		
 		/**
 		* Méthode permettant de vérifier les informations de l'utilisateur
 		* @param object $objUser L'utilisateur à vérifier

@@ -5,8 +5,6 @@
 	* Traitement des requêtes pour les utilisateurs
 	* @author : Christel
 	* @version : V0.5
-	* ALTER TABLE users ADD COLUMN user_created_at DATETIME NULL;
-	* ALTER TABLE users ADD COLUMN user_updated_at DATETIME NULL;
 	*/
 	class UserModel extends Connect{
 		// Attributs
@@ -155,6 +153,21 @@
 			return $rqPrep->execute();
 		}
 		
+		/**
+		* Fonction permettant de mettre à jour les infos pour mot de passe oublié
+		* @param string $strToken Token de mot de passe oublié
+		* @param int $intUserId Identifiant de l'utilisateur
+		* @return bool maj ok ou pas
+		*/
+		public function updateForgotInfos(string $strToken, int $intUserId):bool{
+			$strRq 	= "	UPDATE users 
+						SET user_reset_at 		= NOW(),
+							user_reset_token 	= '".$strToken."',
+							user_reset_expires 	= NOW() + INTERVAL 15 MINUTE 
+						WHERE user_id = ".$intUserId;
+			return $this->_db->exec($strRq);
+		}
+		
 		
 		/**
 		* Fonction permettant de supprimer définitivement un utilisateur
@@ -176,8 +189,6 @@
 		
 		/**
 		* Fonction permettant de supprimer un utilisateur avec une date de suppression
-		* Attention prévoir le champ : 
-		* ALTER TABLE users ADD COLUMN user_deleted_at DATETIME NULL;
 		* @param int $intId L'identifiant de l'utilisateur
 		* @return bool Suppression ok ou pas
 		*/
@@ -195,17 +206,61 @@
 			return $rqPrep->execute();
 		}		
 		
-		
-		function brute_force($strMail, $intUserId = "NULL", $boolOK = 0){
+		/**
+		* Fonction permettant de conserver les tentatives de connexion en BDD
+		* @param string $strMail Mail de connexion
+		* @param int|string $intUserId Identifiant de l'utilisateur ou texte NULL
+		* @param bool $intOK connexion ok ou pas
+		* @return int insertion ok ou pas
+		*/
+		function brute_force(string $strMail, int|string $intUserId = "NULL", 
+							int $intOK = 0):bool{
 			$strRq 	= "INSERT INTO login_attempts 
 						(login_ip, login_agent, login_mail, login_user, login_ok)
 						VALUES ('".$_SERVER['REMOTE_ADDR']."', 
 								'".$_SERVER['HTTP_USER_AGENT']."', 
 								'".$strMail."', 
 								".$intUserId.", 
-								".$boolOK.")";
+								".$intOK.")";
 			return $this->_db->exec($strRq);
 			
 		}
+		
+		
+		/**
+		* Fonction permettant de récupérer un utilisateur avec son mail
+		* @param string $strMail Mail à trouver
+		* @return array|bool soit un tableau de l'utilisateur soit false
+		*/
+		function findUserByMail(string $strMail):array|bool{
+			$strRq 		= "SELECT user_id, user_mail, user_name, user_firstname
+							FROM users
+							WHERE user_mail = :mail
+								AND user_deleted_at IS NULL";
+			$rqPrepare 	= $this->_db->prepare($strRq);
+			$rqPrepare->bindValue(":mail", $strMail, PDO::PARAM_STR);
+			$rqPrepare->execute();
+			$arrUser	= $rqPrepare->fetch();
+			return $arrUser;
+		}
+		
+		/**
+		* Fonction permettant de récupérer un utilisateur avec son token
+		* @param string $strToken token à trouver
+		* @return array|bool soit un tableau de l'utilisateur soit false
+		*/
+		function findUserByToken(string $strToken):array|bool{
+			$strRq 		= "SELECT user_id
+							FROM users
+							WHERE user_reset_token = :token
+								AND user_reset_expires > NOW()
+								AND user_deleted_at IS NULL";
+			$rqPrepare 	= $this->_db->prepare($strRq);
+			$rqPrepare->bindValue(":token", $strToken, PDO::PARAM_STR);
+			$rqPrepare->execute();
+			$arrUser	= $rqPrepare->fetch();
+			return $arrUser;
+		}
+		
 		
 	}

@@ -1,0 +1,3 @@
+ALTER TABLE users ADD COLUMN user_created_at DATETIME NULL;
+ALTER TABLE users ADD COLUMN user_updated_at DATETIME NULL;
+ALTER TABLE users ADD COLUMN user_deleted_at DATETIME NULL;
